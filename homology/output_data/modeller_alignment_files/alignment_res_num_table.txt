@@ -1,0 +1,13 @@
+object	prot_index_HHPRED	prot_index_MODELLER	seq_index_HHPRED	seq_index_MODELLER
+query_pkp2			351	351
+template_1XM9_A	246	246	2	2
+query_pkp3			319	319
+template_1XM9_A	246	246	2	2
+query_dsg3			770	770
+template_3IFQ_D	635	635	13	13
+query_dsg1			698	698
+template_3IFQ_D	657	657	35	35
+query_dsc3			820	820
+template_3IFQ_D	653	653	31	31
+query_dsc1			834	834
+template_3IFQ_D	664	664	42	42
