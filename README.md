@@ -14,5 +14,5 @@ Owing to the large size of some of the models, additional data is available at t
 
 ## License
 
-All the works are released under the MIT license (see `LICENSE` file for more details)
+All the works are released under the CC-by-SA-4.0 License (see `LICENSE` file for more details)
 
