@@ -5,7 +5,7 @@ Code repository for the Desmosome project
 
 ## Layout
 
-There are 3 main folders: `homology`, `imp_data`, `misc`
+There are 3 main folders:  `modeling`, `data`, `results`. 
 There is an explanation Readme for the folder-specific contents in each of the folders
 
 ## Data repository
