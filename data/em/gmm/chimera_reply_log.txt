@@ -1,0 +1,91 @@
+full_PMremoved.mrc opened
+full_PMremoved_30.mrc opened
+full_PMremoved_40.mrc opened
+full_PMremoved_50.mrc opened
+full_PMremoved_60.mrc opened
+full_PMremoved_70.mrc opened
+full_PMremoved_80.mrc opened
+
+> fitmap #0 #1 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_30.mrc using 7261 points
+  correlation = 0.9531, correlation about mean = 0.9176, overlap = 0.0005108
+  steps = 68, shift = 0.309, angle = 0.217 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_30.mrc (#1) coordinates:
+  Matrix rotation and translation
+     0.99999336   0.00168964   0.00322826  -1.06107902
+    -0.00169302   0.99999802   0.00104518   0.23772029
+    -0.00322648  -0.00105064   0.99999424   0.87641784
+  Axis  -0.27639190   0.85123693  -0.44609776
+  Axis point 285.53160511   0.00000000 320.31119909
+  Rotation angle (degrees)   0.21723112
+  Shift along axis   0.10466191
+
+> fitmap #0 #2 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_40.mrc using 7261 points
+  correlation = 0.9608, correlation about mean = 0.9339, overlap = 0.0005281
+  steps = 44, shift = 0.237, angle = 0.149 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_40.mrc (#2) coordinates:
+  Matrix rotation and translation
+     0.99999899  -0.00015129   0.00141122  -0.23380359
+     0.00015005   0.99999960   0.00087776  -0.12642368
+    -0.00141135  -0.00087755   0.99999862   0.43236747
+  Axis  -0.52593707   0.84571736   0.09029036
+  Axis point 302.68388944   0.00000000 145.36148025
+  Rotation angle (degrees)   0.09561193
+  Shift along axis   0.05508589
+
+> fitmap #0 #3 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_50.mrc using 7261 points
+  correlation = 0.9631, correlation about mean = 0.9338, overlap = 0.0005287
+  steps = 52, shift = 0.211, angle = 0.174 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_50.mrc (#3) coordinates:
+  Matrix rotation and translation
+     0.99999920  -0.00115477  -0.00052392   0.29860003
+     0.00115412   0.99999856  -0.00124654   0.21680404
+     0.00052536   0.00124594   0.99999909  -0.41416262
+  Axis   0.70094196  -0.29508302   0.64931224
+  Axis point   0.00000000 268.10573493 144.35638472
+  Rotation angle (degrees)   0.10186914
+  Shift along axis  -0.12359476
+
+> fitmap #0 #4 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_60.mrc using 7261 points
+  correlation = 0.9646, correlation about mean = 0.9339, overlap = 0.0005307
+  steps = 44, shift = 0.18, angle = 0.274 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_60.mrc (#4) coordinates:
+  Matrix rotation and translation
+     0.99998993  -0.00145736   0.00424463  -0.10513794
+     0.00146395   0.99999773  -0.00154965   0.26153148
+    -0.00424236   0.00155585   0.99998979   0.14671793
+  Axis   0.32697221   0.89357920   0.30757990
+  Axis point  16.75592435   0.00000000  43.63981530
+  Rotation angle (degrees)   0.27209148
+  Shift along axis   0.24444940
+
+> fitmap #0 #5 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_70.mrc using 7261 points
+  correlation = 0.9677, correlation about mean = 0.9378, overlap = 0.0005329
+  steps = 52, shift = 0.204, angle = 0.274 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_70.mrc (#5) coordinates:
+  Matrix rotation and translation
+     0.99999979   0.00057317   0.00029742  -0.18968446
+    -0.00057324   0.99999981   0.00023474   0.15594934
+    -0.00029729  -0.00023491   0.99999993   0.03169697
+  Axis  -0.34175783   0.43275907  -0.83421890
+  Axis point 192.03164055 267.88049466   0.00000000
+  Rotation angle (degrees)   0.03936901
+  Shift along axis   0.10587243
+
+> fitmap #0 #6 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_80.mrc using 7261 points
+  correlation = 0.9677, correlation about mean = 0.9357, overlap = 0.0005349
+  steps = 60, shift = 0.302, angle = 0.0466 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_80.mrc (#6) coordinates:
+  Matrix rotation and translation
+     0.99999999  -0.00005686  -0.00015265   0.22505333
+     0.00005694   0.99999988   0.00048171   0.23272752
+     0.00015262  -0.00048172   0.99999987   0.12593269
+  Axis  -0.94730335  -0.30016083   0.11189209
+  Axis point   0.00000000 323.97690085 -315.45336502
+  Rotation angle (degrees)   0.02913584
+  Shift along axis  -0.26895858

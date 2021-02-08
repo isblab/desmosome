@@ -1,3 +1,0 @@
-object	prot_index_pseudo	prot_index_MODELLER	seq_index_pseudo	seq_index_MODELLER
-query_pkp1			1	1
-template_input_data/pdb_files/1xm9.pdb	245	245	1	1

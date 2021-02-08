@@ -1,7 +1,7 @@
 object	prot_index_HHPRED	prot_index_MODELLER	seq_index_HHPRED	seq_index_MODELLER
-query_pkp2			351	351
-template_1XM9_A	246	246	2	2
-query_pkp3			319	319
+query_pkp2a			350	350
+template_1XM9_A	245	245	1	1
+query_pkp3a			319	319
 template_1XM9_A	246	246	2	2
 query_dsg3			770	770
 template_3IFQ_D	635	635	13	13
