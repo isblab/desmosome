@@ -17,6 +17,7 @@ The code is commented at most places to explain the working. Here is a short sum
 3. `collate_alignments`: Join different MODELLER-ready sequences from different `.ali` files into a single `.ali` file as chains to model with a multi-chain PDB template
 4. `run_modeller_automodel`, `run_modeller_automodel_selective`, `run_modeller_loopmodel`: variants of running MODELLER with different run parameters
 5. `pdb_postprocessing`: Add a chain name to a modeller outputted PDB and allow for selectively (chain-wise/residue wise) adding an offset to the residue numbering to match the FASTA sequence. Also deletes >n residue long contiguous sequences of the model not having a corresponding template structure to create gaps in the PDB allowing for IMP to use Beads for these sections.
+**NOTE**: Since PG has been modelled on 3IFQ_A/B using the PDB SEQRES records instead of the FASTA sequence directly, the resultant MODELLER-outputted PDB (`pg-x-pg-x.pdb`) contains contiguously numbered segments where there are missing residues in the PDB. The final few commands of the `post_processing.bat` fix this such that the `pg-x-pg-x_modified.pdb` contains the correct numbering of residues for all the chains.
 
 All the remaining scripts are auxiliary/helper scripts and not directly used in the pipeline (see in-file comments for their functions)
 

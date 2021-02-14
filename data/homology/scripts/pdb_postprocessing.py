@@ -1,5 +1,6 @@
 import sys
 import re
+from collections import defaultdict
 
 # Satwik Pasani: stochastic13 (29-Jan-2021)
 
@@ -14,7 +15,8 @@ import re
 # 3. Residue offset (for chain_wise residue offset enter something similar to: "A:12,B:45")
 # (For fixing PDB files where a sequence present in the corresponding FASTA is missing from the PDB, this script
 # can offset the residue numbers starting from a given value. Run with that option first, and then the actual numbering
-# offset. Enter '23;12' to offset all residues >= residue number 23 by 12. This option does not look at the chains.)
+# offset. Enter '23;12' to offset all residues >= residue number 23 by 12. To do this only for a single chain,
+# enter "23;12;A" to do this only for chain A.)
 # 4. Output file name
 # 5, 6: Optional. If present, equates to n and ali_file respectively. Deletes all contiguous segments of length >n
 # from the pdb if such a segment is not paired to a corresponding structure in the provided .ali file. It takes the
@@ -33,7 +35,14 @@ cutoff_resnum = -1e7  # arbitrary high value (declaration not needed)
 if ';' in sys.argv[3]:  # offset only after a particular residue number
     specific_offset = True
     cutoff_resnum = int(sys.argv[3].split(';')[0])
-    sys.argv[3] = sys.argv[3].split(';')[1]  # the actual offset
+    if len(sys.argv[3].split(';')) == 2:  # to do this without looking at the chains
+        sys.argv[3] = sys.argv[3].split(';')[1]  # the actual offset
+    else:
+        chain_to_consider = sys.argv[3].split(';')[2]
+        sys.argv[3] = sys.argv[3].split(';')[1]  # the actual offset
+        chain_offset = defaultdict(lambda: "0")
+        chain_offset[chain_to_consider] = sys.argv[3]
+        chain_wise = True
 else:
     specific_offset = False
 
@@ -62,7 +71,7 @@ with open(sys.argv[4], 'w') as f_out:
             if not chain_wise:
                 newresnum = str(resnum + int(sys.argv[3]))
             else:
-                assert newchain_name in chain_offset, 'Must enter a valid offset for all chains'
+                assert (newchain_name in chain_offset) or (isinstance(chain_offset, defaultdict)), 'Must enter a valid offset for all chains'
                 newresnum = str(resnum + int(chain_offset[newchain_name]))
         assert len(newresnum) <= 4, 'Residue number larger than 4 digits'
         newresnum = '{:>4s}'.format(newresnum)  # pad the number appropriately
