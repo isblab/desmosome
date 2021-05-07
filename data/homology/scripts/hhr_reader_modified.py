@@ -183,7 +183,7 @@ def read_result(input_file):
         return parse_result(lines)
 
 
-def read_main(hhr_path, selected_template):
+def read_main(hhr_path, selected_template, ind=0):
     output = []
     probs = []
     for result in read_result(hhr_path):
@@ -195,4 +195,4 @@ def read_main(hhr_path, selected_template):
             output2.append((result.start[0], result.end[0]))
             output.append(output2)
             probs.append(float(result.probability))
-    return output[probs.index(max(probs))]
+    return output[probs.index(sorted(probs, reverse=True)[ind])]

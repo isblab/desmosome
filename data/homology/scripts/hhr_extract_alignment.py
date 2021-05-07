@@ -14,6 +14,8 @@ hhr_read = __import__('hhr_reader_modified')
 # Input Arguments (separated by space):
 # 1. .hhr file path
 # 2. Name of the chosen Template (as given from the listing towards the top of the file)
+# Optionally, can mention the index (from top) of this template if there are multiple hits to the
+# same template. eg: ABCD:3 takes the template ABCD and the 3rd instance from the top
 # 3. PDB path of the chosen template
 # 4. Chain of the PDB to use
 # 5. Path to Output directory (don't use current dir; no trailing slashes; use forward slash '/')
@@ -24,7 +26,12 @@ hhr_read = __import__('hhr_reader_modified')
 prot_index = {}
 seq_index = {}
 captured_hetatm = ['SEP', 'MSE']  # the atoms for which the MODELLER ali file will have a '.' residue
-template_ali, query_ali, template_res_nums, query_res_nums = hhr_read.read_main(sys.argv[1], sys.argv[2])
+ind = 0
+if ":" in sys.argv[2]:
+    a, b = sys.argv[2].split(':')
+    sys.argv[2] = a
+    ind = int(b) - 1
+template_ali, query_ali, template_res_nums, query_res_nums = hhr_read.read_main(sys.argv[1], sys.argv[2], ind)
 seq_index['hhpred_template_SEQRES'] = template_res_nums[0]
 seq_index['hhpred_query_input'] = query_res_nums[0]
 structure = PDBParser(QUIET=True).get_structure('main', sys.argv[3])
@@ -57,9 +64,10 @@ for i in template_ali:
 iter_range = tot_c  # account for '-' in the template_ali file to get an accurate starting point
 count = abs(min(0, seq_index['structure_begin'] - (seq_index['hhpred_template_SEQRES'] - 1)))
 if count != 0:  # because MODELLER expects an alignment to the whole sequence (?)
-    append_start = structure_seq[:count]
+    append_start = structure_seq[:count].replace('X', '')
 else:
     append_start = ''
+count -= list(structure_seq[:count]).count('X')
 # Counter for the ATOM seq
 count2 = abs(min(0, seq_index['structure_begin'] - (seq_index['hhpred_template_SEQRES'] - 1)))
 # Counter for the ATOM seq with missing residues set to 'X'
@@ -107,7 +115,7 @@ with open(sys.argv[5] + '/alignment_MODELLER_' + hhrname + '-' + pdbname + '.ali
     f.write('>P1;' + pdbname + '\n')
     # appending only a single chain information. For multi-chain collation -> separate script
     f.write('structure' + ':' + pdbname + ':FIRST:' + sys.argv[4] + ':LAST:' + sys.argv[4] + '::::\n')
-    f.write(append_start + ''.join(final_alignment[0]) + append_last +  '*\n')
+    f.write(append_start + ''.join(final_alignment[0]) + append_last + '*\n')
     f.write('>P1;' + sys.argv[6] + '\n')
     f.write('sequence:::::::::\n')
     f.write(('-' * len(append_start)) + ''.join(final_alignment[1]) + ('-' * len(append_last)) + '*')
