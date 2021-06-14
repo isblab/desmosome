@@ -1,4 +1,4 @@
-.comment boxes to show the North restraint 2-sigma bounds Red: PKP, Green: PG, Blue: DP, yellow: DSG
+.comment boxes to show the North restraint 2-sigma bounds Red: PKP, Green: DP, Blue: PG
 .color red
 .transparency 0.6
 .box 40 135 40 210 179 210
