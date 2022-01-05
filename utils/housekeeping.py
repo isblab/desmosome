@@ -7,6 +7,7 @@ import numpy as np
 import statsmodels.api as sm
 import multiprocessing as mp
 import matplotlib
+import traceback
 matplotlib.use('agg')
 from equilibration import detectEquilibration
 
@@ -223,7 +224,7 @@ def club_for_proteins(dict_obj):
     
 
 
-def housekeeping_analysis(path, i, plot_path):
+def housekeeping_analysis(path, i, plot_path, eq=False):
     success, vals = parser(f'{path}/{i}')
     if not os.path.isdir(f'{plot_path}/{i}'):
         os.mkdir(f'{plot_path}/{i}')
@@ -258,10 +259,23 @@ def housekeeping_analysis(path, i, plot_path):
     resnames = ['EVR', 'Conn', 'EMR-PGDP', 'EMR-PKP', 'SAMGR', 'MPDBR', 'CLR']
     plt.figure(figsize=(10, 10))
     all_res_info = dict()
+    t_eq = None
+    t_eq_2 = None
     for reskey, resname in zip(big_restraints, resnames):
         score = parse_key(reskey, z, main_array, inverted_dict, exchange_indices, n_remove)
-        t_eq = detectEquilibration(score, 1, 'geyer')
-        t_eq_2 = detectEquilibration(score, 1, 'multiscale')
+        if eq:
+            try:
+                t_eq = detectEquilibration(score, 1, 'geyer')
+            except ValueError:
+                print(f'Geyer equilibriation test failed for {reskey}. See the traceback below:')
+                traceback.print_exc()
+                t_eq = None
+            try:
+                t_eq_2 = detectEquilibration(score, 1, 'multiscale')
+            except ValueError:
+                print(f'Multiscale equilibriation test failed for {reskey}. See the traceback below:')
+                traceback.print_exc()
+                t_eq = None
         lowess = sm.nonparametric.lowess
         fitline = lowess(score, np.arange(n_remove, n), frac=0.2, return_sorted=False)
         all_res_info[resname] = (fitline - fitline.max(), get_moving_sd(score), t_eq, t_eq_2)
@@ -315,7 +329,7 @@ def housekeeping_analysis(path, i, plot_path):
 
 if __name__ == '__main__':
     all_sub_paths = [i for i in os.listdir(sys.argv[1]) if os.path.isdir(sys.argv[1] + '/' + i) and 'output' in i]
-    args = [(sys.argv[1], i, sys.argv[2]) for i in all_sub_paths]
+    args = [(sys.argv[1], i, sys.argv[2], True) for i in all_sub_paths]
     with mp.Pool(int(sys.argv[3])) as p:
         success = p.starmap(housekeeping_analysis, args)
     print(f'Total Number of tasks: {len(success)}\nTotal Successes: {np.sum(success)}')
