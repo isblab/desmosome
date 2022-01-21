@@ -183,7 +183,11 @@ def get_moving_sd(score, frac=0.1):
         sds.append(np.std(score[inds[0]:inds[1]]))
     return sds
 
-def club_for_proteins(dict_obj):
+def club_for_proteins(dict_obj):  # MODIFY THIS
+    # The idea is to club together some restraints based on protein names
+    # requires you to have custom protein names while setting up the restraints
+    # otherwise, you can just remove the call to this function later
+    # the names of the restraints also depends on the system
     # Connectivity
     if 'Connectivity' in list(dict_obj.keys())[0]:
         new_dict = dict()
@@ -256,6 +260,8 @@ def housekeeping_analysis(path, i, plot_path, eq=False):
     plt.savefig(f'{plot_path}/{i}/equilibriation_rex_distribution.png')
     plt.close('all')
     big_restraints = ['ExcludedVolumeSphere', 'ConnectivityRestraint', 'GaussianEMRestraint_fullPGDP$', 'GaussianEMRestraint_PKPStructureGPKP$', 'SingleAxisMinGaussianRestraint', 'MinimumPairDistanceBindingRestraint', 'CylinderLocalizationRestraint']
+    # MODIFY THIS
+    # these are the search strings to identify the restraints and the corresponding names to refer to these in plots
     resnames = ['EVR', 'Conn', 'EMR-PGDP', 'EMR-PKP', 'SAMGR', 'MPDBR', 'CLR']
     plt.figure(figsize=(10, 10))
     all_res_info = dict()
@@ -298,7 +304,7 @@ def housekeeping_analysis(path, i, plot_path, eq=False):
         for key in all_matching_keys:
             score = parse_key(key, z, main_array, inverted_dict, exchange_indices, n_remove)
             all_scores[key] = score
-        all_scores = club_for_proteins(all_scores)
+        all_scores = club_for_proteins(all_scores) # MODIFY THIS (if you do not want to club for proteins)
         temp = [all_scores[x] for x in all_scores]
         labs = [x for x in all_scores]
         rng = (np.min(np.array(temp).flatten()), np.max([np.percentile(x, 99.5) for x in temp]))
@@ -316,6 +322,9 @@ def housekeeping_analysis(path, i, plot_path, eq=False):
         plt.savefig(f'{plot_path}/{i}/overlapping_histogram_{resname}.png')
         plt.close('all')
     mcs = ['MonteCarlo_Acceptance_pg_ds[cg]1_structure', 'MonteCarlo_Acceptance_dp_structure', 'MonteCarlo_Acceptance_pkp1a_structure', 'MonteCarlo_Acceptance_pg_ds[cg]1_srb', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_([0-9]|[1-6][0-9]|7[0-5])$', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_(12[0-9]|13[0-1]|14[0-9]|15[0-1]|16[0-9]|17[0-1]|18[5-9]|19[0-6])$', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_([8-9][0-9]|10[0-9]|11[0-8])$', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_(13[2-7]|15[2-7]|17[2-9]|18[0-2]|19[7-9]|20[0-7])$']
+    # MODIFY THIS
+    # this is to identify the different MC parameters to ensure they were in the optimal range
+    # these should be the same as the search parameters used in StOP
     all_mcs = []
     for mc in mcs:
         all_mcs.append(str(round(np.nanmean(parse_key(mc, z, main_array, inverted_dict, exchange_indices, n_remove, True)), 2)))
@@ -328,6 +337,12 @@ def housekeeping_analysis(path, i, plot_path, eq=False):
     return True
 
 if __name__ == '__main__':
+    # MODIFY THIS
+    # the different runs are called "output<num>" in my case. Modify it accordingly
+    # Command line arguments: 1 -> where the different run directories are present
+    # 2-> where to store the plots
+    # 3 -> number of cores to use for plotting
+    # Also you can set the fourth tuple member in "args" below to False if you do not want to calculate equilibriation (Not needed usually and very slow)
     all_sub_paths = [i for i in os.listdir(sys.argv[1]) if os.path.isdir(sys.argv[1] + '/' + i) and 'output' in i]
     args = [(sys.argv[1], i, sys.argv[2], True) for i in all_sub_paths]
     with mp.Pool(int(sys.argv[3])) as p:
