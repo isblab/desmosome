@@ -9,6 +9,7 @@ import numpy as np
 import IMP.test
 
 
+# TODO: Add x0 != 0 test case
 def setup_p(m, name, vec, r):
     p = m.add_particle(str(name))
     p = IMP.core.XYZR.setup_particle(m, p)
@@ -38,6 +39,9 @@ class Tests(IMP.test.TestCase):
     """ TestMinimum Pair Distance Binding Restraint Restraint"""
 
     def setUp(self):
+        IMP.test.TestCase.setUp(self)
+        IMP.set_log_level(IMP.SILENT)
+        IMP.set_check_level(IMP.NONE)
         self.m = IMP.Model()
         self.particle_coordinates = [
             (0, 0, 0),
@@ -63,7 +67,7 @@ class Tests(IMP.test.TestCase):
                             metric='euclidean')
         radii_sums = np.array(self.radii[::2])[:, np.newaxis] + np.array(self.radii[1::2])[np.newaxis, :]
         dist_matrix -= radii_sums
-        self.answer2 = ((dist_matrix.flatten()[np.argmin(np.abs(dist_matrix.flatten()))] - 1) ** 2) * self.kp / 2
+        self.answer2 = (dist_matrix.flatten()[np.argmin(np.abs(dist_matrix.flatten()))] ** 2) * self.kp / 2
 
         self.particles = [setup_p(self.m, i, self.particle_coordinates[i], self.radii[i])
                           for i in range(len(self.particle_coordinates))]
@@ -72,8 +76,8 @@ class Tests(IMP.test.TestCase):
         """Test Minimum Pair Distance Binding Restraint"""
         res1 = MinimumPairDistanceBindingRestraint(self.m, self.particles[:3], self.particles[3:], 0, self.kp)
         res2 = MinimumPairDistanceBindingRestraint(self.m, self.particles[::2], self.particles[1::2], 1, self.kp)
-        self.assertAlmostEqual(self.answer1, res1.evaluate(), 1e-7)
-        self.assertAlmostEqual(self.answer2, res2.evaluate(), 1e-7)
+        self.assertAlmostEqual(self.answer1, res1.evaluate(), 7)
+        self.assertAlmostEqual(self.answer2, res2.evaluate(), 7)
 
 
 if __name__ == '__main__':

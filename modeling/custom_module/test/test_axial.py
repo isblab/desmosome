@@ -16,6 +16,9 @@ class Tests(IMP.test.TestCase):
     """ Test Axial Localization Restraint"""
 
     def setUp(self):
+        IMP.test.TestCase.setUp(self)
+        IMP.set_log_level(IMP.SILENT)
+        IMP.set_check_level(IMP.NONE)
         self.m = IMP.Model()
         self.particle_coordinates = [
             (0, 0, 0),
@@ -44,7 +47,7 @@ class Tests(IMP.test.TestCase):
                 for i, j in zip(self.upper_list, self.lower_list):
                     res = desm.AxialLocalizationRestraint(self.particles, axis, i, j, k)
                     val = res.unprotected_evaluate(None)
-                    self.assertAlmostEqual(val / k - self.answers[axis][count], 0, 1e-7)
+                    self.assertAlmostEqual(val / k - self.answers[axis][count], 0, 7)
                     count += 1
 
 

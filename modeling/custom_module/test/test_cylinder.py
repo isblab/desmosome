@@ -25,6 +25,9 @@ class Tests(IMP.test.TestCase):
     """ Test Cylinder Localization Restraint"""
 
     def setUp(self):
+        IMP.test.TestCase.setUp(self)
+        IMP.set_log_level(IMP.SILENT)
+        IMP.set_check_level(IMP.NONE)
         self.m = IMP.Model()
         self.particle_coordinates = [
             (0, 0, 0),
@@ -65,7 +68,7 @@ class Tests(IMP.test.TestCase):
                         answer_val = [point_lin_dist(c, new_c, x) for x in self.particle_coordinates]
                         answer_val = [(x - r) for x in answer_val if x > r]
                         answer_val = sum([k * (x ** 2) for x in answer_val])
-                        self.assertAlmostEqual(val, answer_val, 1e-7)
+                        self.assertAlmostEqual(val, answer_val, 7)
 
     def test_cylinder_general(self):
         """Test Cylinder Localization Restraint general version"""
@@ -78,14 +81,14 @@ class Tests(IMP.test.TestCase):
                     # Only works if the axis is not already parallel to z axis
                     if (c1[0] == c2[0]) and (c1[1] == c2[1]):
                         continue
-                    for r in radii:
+                    for r in self.radii:
                         res = desm.CylinderLocalizationRestraint(self.particles, k, c1[0], c1[1],
                                                                  c1[2], c2[0], c2[1], c2[2], r)
                         val = res.unprotected_evaluate(None)
                         answer_val = [point_lin_dist(c1, c2, x) for x in self.particle_coordinates]
                         answer_val = [(x - r) for x in answer_val if x > r]
                         answer_val = sum([k * (x ** 2) for x in answer_val])
-                        self.assertAlmostEqual(val, answer_val, 1e-7)
+                        self.assertAlmostEqual(val, answer_val, 7)
 
 
 if __name__ == '__main__':

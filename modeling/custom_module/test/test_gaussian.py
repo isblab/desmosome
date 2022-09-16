@@ -17,6 +17,9 @@ class Tests(IMP.test.TestCase):
     """ Test Single-axis Min-Gaussian Restraint"""
 
     def setUp(self):
+        IMP.test.TestCase.setUp(self)
+        IMP.set_log_level(IMP.SILENT)
+        IMP.set_check_level(IMP.NONE)
         self.m = IMP.Model()
         self.particle_coordinates = [
             (0, 0, 0),
@@ -41,7 +44,7 @@ class Tests(IMP.test.TestCase):
                     val = res.unprotected_evaluate(None)
                     answer_val = min([abs(p[axis] - mn) for p in self.particle_coordinates])
                     answer_val = math.log(2 * math.pi * (s ** 2)) / 2 + (answer_val ** 2) / (2 * (s ** 2))
-                    self.assertAlmostEqual(val, answer_val, 1e-7)
+                    self.assertAlmostEqual(val, answer_val, 7)
 
 
 if __name__ == '__main__':
