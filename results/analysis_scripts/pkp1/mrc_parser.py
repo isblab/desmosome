@@ -63,27 +63,3 @@ def calculate_with_external_grid_with_addition(list_of_g, list_of_v, name, voxel
     o, c0, cm, cp = calculate_metrics(values[0], summed_vals, False)
     print(f'{name} (all points)')
     print(f'\tOverlap: {o:.4f}, C0: {c0:.4f}, Cam: {cm:.4f} ({cp[0]:.4f}, {cp[1]:.4f})')
-    
-# file1 = mrc_file_original
-# file2 = [f'{sampcon_output}/cluster.0/LPD_DP-{x}.mrc' for x in ['N', 'S']]
-# file3 = [f'{sampcon_output}/cluster.0/LPD_PG-{x}.mrc' for x in ['N', 'S', 'C']]
-# mrc_ref = mrcfile.open(file1, 'r', permissive=True)
-# mrc_dp = [mrcfile.open(x, 'r', permissive=True) for x in file2]
-# mrc_pg = [mrcfile.open(x, 'r', permissive=True) for x in file3]
-
-# grid_points = []
-# value_points = []
-# for mrc in [mrc_ref] + mrc_dp + mrc_pg:
-    # xvals = mrc.voxel_size.x * np.arange(mrc.data.shape[2]) + mrc.header.origin.x
-    # yvals = mrc.voxel_size.y * np.arange(mrc.data.shape[1]) + mrc.header.origin.y
-    # zvals = mrc.voxel_size.z * np.arange(mrc.data.shape[0]) + mrc.header.origin.z
-    # grid_points.append((xvals, yvals, zvals))
-    # value_points.append(mrc.data.transpose(2, 1, 0).copy())
-
-# for i, name in enumerate([f'DP-{x}' for x in ['N', 'S']] + [f'PG-{x}' for x in ['N', 'S', 'C']]):
-    # calculate_with_grid_of_map1(grid_points[0], value_points[0],
-                                # grid_points[i + 1], value_points[i + 1],
-                                # f'{name} -> ref')
-    # print('-' * 50)
-# print('-' * 50)
-# calculate_with_external_grid_with_addition(grid_points, value_points, 'DP + PG <-> ref')

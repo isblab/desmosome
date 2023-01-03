@@ -13,6 +13,8 @@ import os
 import tqdm
 import time
 from scipy.spatial.distance import cdist
+import statsmodels.api as sm
+from scipy.signal import argrelextrema
 from collections import defaultdict
 import pickle
 
@@ -99,6 +101,22 @@ def foo_saver(total, q, save_path):
     print('Data saved')
 
 
+def get_ranges(data):
+    result = []
+    if not data:
+        return result
+    idata = iter(data)
+    first = prev = next(idata)
+    for following in idata:
+        if following - prev == 1:
+            prev = following
+        else:
+            result.append((first, prev))
+            first = prev = following
+    result.append((first, prev))
+    return result
+
+
 def foo_contact_maps_worker(path, molecule_pair, indices, residues, save_path, contact_cutoff=10):
     with open(f'{path}', 'rb') as f:
         m, p = pickle.load(f)
@@ -131,10 +149,41 @@ def foo_contact_maps_worker(path, molecule_pair, indices, residues, save_path, c
     overall_dist_matrix_boolean /= n_models
     m, m_adjusted, m_boolean = (overall_dist_matrix, overall_dist_matrix_adjusted, overall_dist_matrix_boolean)
     mol1, mol2 = molecule_pair
+    # save the flattened values; cluster and identify the thresholds
+    with open(f'{save_path}/flattened_dist_matrices_{mol1}_{mol2}.txt', 'w') as f:
+        fig, ax = plt.subplots(1, 3, figsize=(15, 7))
+        ax = ax.ravel()
+        for ind, matrix in enumerate([m, m_adjusted, m_boolean]):
+            flat_matrix = np.sort(matrix.flatten())
+            f.write(','.join(list(map(str, flat_matrix.tolist()))))
+            f.write('\n')
+            dens_u = sm.nonparametric.KDEMultivariate(data=flat_matrix, var_type='c', bw='cv_ls')
+            p1_range = 0.01 * np.ptp(flat_matrix)  # 1 percent of the range
+            xvals = np.linspace(flat_matrix[0] - p1_range, flat_matrix[-1] + p1_range, 1000)
+            kde_estimate = np.array([dens_u.pdf(x) for x in xvals])
+            mi, ma = argrelextrema(kde_estimate, np.less)[0], argrelextrema(kde_estimate, np.greater)[0]
+            ax[ind].plot(xvals, kde_estimate, color='black', zorder=0)
+            ax[ind].scatter(kde_estimate[mi], [dens_u.pdf(xvals[x]) for x in mi], color='red')
+            ax[ind].scatter(kde_estimate[ma], [dens_u.pdf(xvals[x]) for x in ma], color='green')
+        fig.savefig(f'{save_path}/clustered_flattened_dist_matrices_{mol1}_{mol2}.png')
+        plt.close('all')
+    # save the contacts based on different thresholds
+    for c in [0.2, 0.25, 0.3]:
+        with open(f'{save_path}/list_contacts_{mol1}_{mol2}_{int(c * 100)}.txt', 'w') as f:
+            indx, indy = np.where(m_boolean[np.ix_(np.array(indices[mol1]), np.array(indices[mol2]))] >= c)
+            f.write(f'{mol1:^15}\t{mol2}\n')
+            cm_dict = defaultdict(list)
+            for i in np.unique(indx):
+                temp = tuple([indy[x] + residues[mol2][0] for x in range(len(indy)) if indx[x] == i])
+                cm_dict[temp].append(i + residues[mol1][0])
+            for i, j in cm_dict.items():
+                val1 = ','.join(list(map(str, get_ranges(j))))
+                val2 = ','.join(list(map(str, get_ranges(i))))
+                f.write(f'{val1:^7}\t{val2}\n')
     for matrix, plot_type in zip([m, m_adjusted, m_boolean], ['unadjusted', 'adjusted', 'boolean']):
         fig, ax = plt.subplots(figsize=(10, 10))
         temp = ax.imshow(matrix[np.ix_(np.array(indices[mol1]), np.array(indices[mol2]))], aspect='auto',
-                         cmap='magma_r' if plot_type != 'boolean' else 'magma')
+                         cmap='magma' if plot_type != 'boolean' else 'magma_r')
         ax.set_xticks(np.arange(len(indices[mol2]))[::50])
         ax.set_yticks(np.arange(len(indices[mol1]))[::50])
         ax.set_xticklabels(residues[mol2][::50])

@@ -2,14 +2,27 @@ import os
 import re
 import matplotlib.pyplot as plt
 import sys
-sys.path = ['/home/satwik/pmi_analysis/pyext/src'] + sys.path
 import numpy as np
 import statsmodels.api as sm
 import multiprocessing as mp
 import matplotlib
 import traceback
-matplotlib.use('agg')
+
+sys.path = ['/home/satwik/pmi_analysis/pyext/src'] + sys.path
 from equilibration import detectEquilibration
+
+matplotlib.use('agg')
+
+# system specific MC regex strings for StOP
+# this is to double-check if the MC ratios were in the optimal zone
+mac = 'MonteCarlo_Acceptance'
+macb = 'MonteCarlo_Acceptance_BallMover'
+mcs_main_strings = [f'{mac}_pg_ds[cg]1_structure', f'{mac}_dp_structure',
+                    f'{mac}_pkp3a_structure', f'{mac}_pg_ds[cg]1_srb',
+                    f'{macb}-[0-9]+-[0-9]+_bead_([0-9]|[1-6][0-9]|7[0-5])$',
+                    f'{macb}-[0-9]+-[0-9]+_bead_(12[0-9]|13[0-1]|14[0-9]|15[0-1]|16[0-9]|17[0-1]|18[5-9]|19[0-6])$',
+                    f'{macb}-[0-9]+-[0-9]+_bead_([8-9][0-9]|10[0-9]|11[0-8])$',
+                    f'{macb}-[0-9]+-[0-9]+_bead_(13[2-7]|15[2-7]|17[2-9]|18[0-2]|19[7-9]|20[0-7])$']
 
 
 # sanity check function
@@ -29,9 +42,9 @@ def sort_the_replica_exchanges_lowest_temp(main_order):
     replica_index = []  # Integer indices given to each replica
     for i in range(len(main_order)):
         m += main_order[i].tolist()
-        replica_index += ([i for x in range(len(main_order[i]))])
+        replica_index += ([i for _ in range(len(main_order[i]))])
     sorted_replicas = sorted(zip(m, replica_index))  # Sort the indices according the main_order
-    sorted_replicas = [x[1] for x in sorted_replicas]  # extract the indices
+    sorted_replicas = [i[1] for i in sorted_replicas]  # extract the indices
     x = [False] + (np.diff(sorted_replicas) != 0).tolist()  # Boolean array marking exchanges
     return sorted_replicas, x
 
@@ -50,7 +63,7 @@ def sort_the_replica_exchanges_all_temp(main_array_replica, inverted_dict_replic
 
 
 def correct_mc_cumulative(mc_array, min_temp_exchanges):
-    # Cumulative number of MonteCarlo steps
+    """Change the MC acceptance ratios from cumulative to instantaneous (per frame)"""
     adjusted_mc_array = []
     for sub_mc in mc_array:
         number_of_steps = np.arange(1, len(sub_mc) + 1)
@@ -156,6 +169,11 @@ def parser(path):  # To parse all the stat files
     z = sorted(zip(collated_order, x))
     z = [i[1] for i in z]  # properly ordered list of dictionaries (with stat file fields)
 
+    main_order_2 = np.diff(np.array([int(i[inverted_dict['MonteCarlo_Nframe']]) for i in z]))
+    # confirm that MonteCarlo_Nframe matches the order based on temperature 1
+    assert ((len(np.unique(main_order_2)) == 1) and (
+            np.unique(main_order_2)[0] == 1)), 'Temperature based frame ordering does not match MonteCarlo_Nframe'
+
     x = []
     for i in range(len(main_array)):
         x += main_array_replica[i][main_order[i]].tolist()
@@ -164,30 +182,28 @@ def parser(path):  # To parse all the stat files
     return True, (z, z_replica, main_array, main_array_replica, inverted_dict, inverted_dict_replica, main_order)
 
 
-def parse_key(search_string, z, main_array, inverted_dict, exchange_indices, n_remove, adjust=False):
-    stat_key = any([re.search(search_string, str(x)) for x in inverted_dict.keys()])
+def parse_key(search_string, z, inverted_dict, exchange_indices, n_remove, adjust=False):
     header_list = [x for x in inverted_dict.keys() if re.search(search_string, str(x))]
     unfiltered_array_list = [[float(j[inverted_dict[i]]) for j in z] for i in header_list]
     if adjust:
-    	adjusted_unfiltered_array_list = correct_mc_cumulative(unfiltered_array_list, exchange_indices)
-    	last_keep = np.array([x[n_remove:] for x in adjusted_unfiltered_array_list])
+        adjusted_unfiltered_array_list = correct_mc_cumulative(unfiltered_array_list, exchange_indices)
+        last_keep = np.array([x[n_remove:] for x in adjusted_unfiltered_array_list])
     else:
         last_keep = np.array([x[n_remove:] for x in unfiltered_array_list])
     return np.mean(last_keep, axis=0).flatten()
 
 
 def get_moving_sd(score, frac=0.1):
+    # moving window sd calculation. each window is frac * all_samples
     sds = []
     for i in range(len(score)):
         inds = [max(0, int(i - (frac / 2) * len(score))), min(len(score) - 1, int(i + (frac / 2) * len(score)))]
         sds.append(np.std(score[inds[0]:inds[1]]))
     return sds
 
-def club_for_proteins(dict_obj):  # MODIFY THIS
-    # The idea is to club together some restraints based on protein names
-    # requires you to have custom protein names while setting up the restraints
-    # otherwise, you can just remove the call to this function later
-    # the names of the restraints also depends on the system
+
+def club_for_proteins(dict_obj):
+    # Club the scores based on proteins (i.e. collate the scores of diff copies)
     # Connectivity
     if 'Connectivity' in list(dict_obj.keys())[0]:
         new_dict = dict()
@@ -225,63 +241,70 @@ def club_for_proteins(dict_obj):  # MODIFY THIS
     else:
         new_dict = dict_obj
     return new_dict
-    
 
 
 def housekeeping_analysis(path, i, plot_path, eq=False):
     success, vals = parser(f'{path}/{i}')
     if not os.path.isdir(f'{plot_path}/{i}'):
         os.mkdir(f'{plot_path}/{i}')
-    if not success:
+    if not success:  # parsing failed
+        print(f'Parsing failed for {path}, {i}!')
         return False
     z, z_replica, main_array, main_array_replica, inverted_dict, inverted_dict_replica, main_order = vals
-    n = len(z)
-    n_remove = int(0.1 * n)
+    n = len(z)  # number of frames
+    n_remove = int(0.1 * n)  # burn in
     n_keep = n - n_remove
     sorted_replicas, exchange_indices = sort_the_replica_exchanges_lowest_temp(main_order)
     exchange_counts_all = sort_the_replica_exchanges_all_temp(main_array_replica, inverted_dict_replica)
     tot_score = [float(j[inverted_dict['Total_Score']]) for j in z]
-    lowess = sm.nonparametric.lowess
+    lowess = sm.nonparametric.lowess  # smoothen
     fitline = lowess(tot_score[n_remove:], np.arange(n_remove, n), frac=0.2, return_sorted=False)
     plt.figure(figsize=(10, 10))
     plt.scatter(np.arange(n_remove, n), tot_score[n_remove:], color='black', zorder=0, s=10)
-    plt.scatter(np.arange(n_remove, n)[exchange_indices[n_remove:]], np.array(tot_score[n_remove:])[exchange_indices[n_remove:]], color='red', s=5, zorder=10)
+    plt.scatter(np.arange(n_remove, n)[exchange_indices[n_remove:]],
+                np.array(tot_score[n_remove:])[exchange_indices[n_remove:]], color='red', s=5, zorder=10)
     plt.plot(np.arange(n_remove, n), fitline, color='green', lw=3, zorder=100)
     plt.ylim(*np.sort(tot_score[n_remove:])[np.array([int(0.01 * n_keep), int(0.99 * n_keep)])])
     plt.savefig(f'{plot_path}/{i}/equilibriation_total_score.png')
     plt.close('all')
     plt.figure()
-    plt.hist(np.where(exchange_indices[n_remove:])[0] + n_remove, label='min_temp', alpha=0.4, color='green', bins=100, density=True)
-    plt.hist(np.where(exchange_counts_all[n_remove:])[0] + n_remove, label='all_temp', alpha=0.4, color='violet', bins=100, density=True)
-    plt.hist(np.where(exchange_indices[n_remove:])[0] + n_remove, color='green', bins=100, density=True, histtype='step')
-    plt.hist(np.where(exchange_counts_all[n_remove:])[0] + n_remove, color='violet', bins=100, density=True, histtype='step')
+    plt.hist(np.where(exchange_indices[n_remove:])[0] + n_remove, label='min_temp', alpha=0.4, color='green', bins=100,
+             density=True)
+    plt.hist(np.where(exchange_counts_all[n_remove:])[0] + n_remove, label='all_temp', alpha=0.4, color='violet',
+             bins=100, density=True)
+    plt.hist(np.where(exchange_indices[n_remove:])[0] + n_remove, color='green', bins=100, density=True,
+             histtype='step')
+    plt.hist(np.where(exchange_counts_all[n_remove:])[0] + n_remove, color='violet', bins=100, density=True,
+             histtype='step')
     plt.legend()
     plt.xlim(n_remove, n)
     plt.savefig(f'{plot_path}/{i}/equilibriation_rex_distribution.png')
     plt.close('all')
-    big_restraints = ['ExcludedVolumeSphere', 'ConnectivityRestraint', 'GaussianEMRestraint_fullPGDP$', 'GaussianEMRestraint_PKPStructureGPKP$', 'SingleAxisMinGaussianRestraint', 'MinimumPairDistanceBindingRestraint', 'CylinderLocalizationRestraint']
-    # MODIFY THIS
-    # these are the search strings to identify the restraints and the corresponding names to refer to these in plots
+    big_restraints = ['ExcludedVolumeSphere', 'ConnectivityRestraint', 'GaussianEMRestraint_fullPGDP$',
+                      'GaussianEMRestraint_PKPStructureGPKP$', 'SingleAxisMinGaussianRestraint',
+                      'MinimumPairDistanceBindingRestraint', 'CylinderLocalizationRestraint']
     resnames = ['EVR', 'Conn', 'EMR-PGDP', 'EMR-PKP', 'SAMGR', 'MPDBR', 'CLR']
     plt.figure(figsize=(10, 10))
     all_res_info = dict()
     t_eq = None
     t_eq_2 = None
     for reskey, resname in zip(big_restraints, resnames):
-        score = parse_key(reskey, z, main_array, inverted_dict, exchange_indices, n_remove)
+        score = parse_key(reskey, z, inverted_dict, exchange_indices, n_remove)
         if eq:
             try:
-                t_eq = detectEquilibration(score, 1, 'geyer')
+                # needs the new pmi_analysis with the geyer bug fixed
+                t_eq = detectEquilibration(score, 1, 'geyer')[0]
+                pass
             except ValueError:
                 print(f'Geyer equilibriation test failed for {reskey}. See the traceback below:')
                 traceback.print_exc()
                 t_eq = None
             try:
-                t_eq_2 = detectEquilibration(score, 1, 'multiscale')
+                t_eq_2 = detectEquilibration(score, 1, 'multiscale')[0]
             except ValueError:
                 print(f'Multiscale equilibriation test failed for {reskey}. See the traceback below:')
                 traceback.print_exc()
-                t_eq = None
+                t_eq_2 = None
         lowess = sm.nonparametric.lowess
         fitline = lowess(score, np.arange(n_remove, n), frac=0.2, return_sorted=False)
         all_res_info[resname] = (fitline - fitline.max(), get_moving_sd(score), t_eq, t_eq_2)
@@ -293,18 +316,21 @@ def housekeeping_analysis(path, i, plot_path, eq=False):
     for resname in all_res_info:
         plt.figure()
         plt.plot(np.arange(n_remove, n), all_res_info[resname][0], color='red', lw=3)
-        plt.fill_between(np.arange(n_remove, n), all_res_info[resname][0] + all_res_info[resname][1], all_res_info[resname][0] - all_res_info[resname][1], alpha=0.5, zorder=-10, color='black')
-        plt.axvline(n_remove + all_res_info[resname][2], 0, 1, color='green', lw=2)
-        plt.axvline(n_remove + all_res_info[resname][3], 0, 1, color='green', lw=2, linestyle=':')
+        plt.fill_between(np.arange(n_remove, n), all_res_info[resname][0] + all_res_info[resname][1],
+                         all_res_info[resname][0] - all_res_info[resname][1], alpha=0.5, zorder=-10, color='black')
+        if not (all_res_info[resname][2] is None):
+            plt.axvline(n_remove + all_res_info[resname][2], 0, 1, color='green', lw=2)
+        if not (all_res_info[resname][3] is None):
+            plt.axvline(n_remove + all_res_info[resname][3], 0, 1, color='green', lw=2, linestyle=':')
         plt.savefig(f'{plot_path}/{i}/equilibriation_{resname}.png')
         plt.close('all')
     for reskey, resname in zip(big_restraints, resnames):
         all_matching_keys = [x for x in inverted_dict.keys() if re.search(reskey, str(x))]
         all_scores = dict()
         for key in all_matching_keys:
-            score = parse_key(key, z, main_array, inverted_dict, exchange_indices, n_remove)
+            score = parse_key(key, z, inverted_dict, exchange_indices, n_remove)
             all_scores[key] = score
-        all_scores = club_for_proteins(all_scores) # MODIFY THIS (if you do not want to club for proteins)
+        all_scores = club_for_proteins(all_scores)
         temp = [all_scores[x] for x in all_scores]
         labs = [x for x in all_scores]
         rng = (np.min(np.array(temp).flatten()), np.max([np.percentile(x, 99.5) for x in temp]))
@@ -321,30 +347,25 @@ def housekeeping_analysis(path, i, plot_path, eq=False):
         plt.legend()
         plt.savefig(f'{plot_path}/{i}/overlapping_histogram_{resname}.png')
         plt.close('all')
-    mcs = ['MonteCarlo_Acceptance_pg_ds[cg]1_structure', 'MonteCarlo_Acceptance_dp_structure', 'MonteCarlo_Acceptance_pkp1a_structure', 'MonteCarlo_Acceptance_pg_ds[cg]1_srb', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_([0-9]|[1-6][0-9]|7[0-5])$', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_(12[0-9]|13[0-1]|14[0-9]|15[0-1]|16[0-9]|17[0-1]|18[5-9]|19[0-6])$', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_([8-9][0-9]|10[0-9]|11[0-8])$', 'MonteCarlo_Acceptance_BallMover-[0-9]+-[0-9]+_bead_(13[2-7]|15[2-7]|17[2-9]|18[0-2]|19[7-9]|20[0-7])$']
-    # MODIFY THIS
-    # this is to identify the different MC parameters to ensure they were in the optimal range
-    # these should be the same as the search parameters used in StOP
+    mcs = mcs_main_strings
     all_mcs = []
     for mc in mcs:
-        all_mcs.append(str(round(np.nanmean(parse_key(mc, z, main_array, inverted_dict, exchange_indices, n_remove, True)), 2)))
+        all_mcs.append(str(np.round(np.nanmean(parse_key(mc, z, inverted_dict, exchange_indices, n_remove, True)), 2)))
     print(f'\nFinished {i}')
-    print(f'\tTotal min-temp exchanges: {np.sum(exchange_indices[n_remove:]) / n_keep * 100:.2f} percent of last {n_keep} frames')
+    temp = np.sum(exchange_indices[n_remove:]) / n_keep * 100
+    print(f'\tTotal min-temp exchanges: {temp:.2f} percent of last {n_keep} frames')
     print(f'\tTotal all-temp exchanges: {np.sum(exchange_counts_all[n_remove:]) / n_keep:.2f} per frame')
     mcstr = ';'.join(all_mcs)
     print(f'\tAll relevant MC Acceptance Ratios: {mcstr}')
     print(f'\tMC-Acceptances in target region: {[(0.3 <= float(x) <= 0.5) for x in all_mcs]}')
     return True
 
+
 if __name__ == '__main__':
-    # MODIFY THIS
-    # the different runs are called "output<num>" in my case. Modify it accordingly
-    # Command line arguments: 1 -> where the different run directories are present
-    # 2-> where to store the plots
-    # 3 -> number of cores to use for plotting
-    # Also you can set the fourth tuple member in "args" below to False if you do not want to calculate equilibriation (Not needed usually and very slow)
-    all_sub_paths = [i for i in os.listdir(sys.argv[1]) if os.path.isdir(sys.argv[1] + '/' + i) and 'output' in i]
-    args = [(sys.argv[1], i, sys.argv[2], True) for i in all_sub_paths]
+    # sys.argv -> location of all the output dirs, plot saving path, number of cores to use
+    location = [i for i in os.listdir(sys.argv[1]) if
+                os.path.isdir(f'{sys.argv[1]}/{i}') and ('output' in i) and (len(os.listdir(f'{sys.argv[1]}/{i}')) > 0)]
+    args = [(sys.argv[1], i, sys.argv[2], True) for i in location]
     with mp.Pool(int(sys.argv[3])) as p:
         success = p.starmap(housekeeping_analysis, args)
     print(f'Total Number of tasks: {len(success)}\nTotal Successes: {np.sum(success)}')
