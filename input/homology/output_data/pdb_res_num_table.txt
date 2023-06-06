@@ -1,0 +1,8 @@
+pdb	prot_index_SEQRES	SEQRES_len	prot_index_ATOM	ATOM_num	ATOM_len	ATOM_missing
+input_data/pdb_files/1xm9.pdb_A	244	457	244	420	457	388;389;390;391;392;393;394;395;396;481;482;483;484;485;486;487;488;489;490;491;492;493;494;495;496;497;498;499;500;501;502;503;504;505;506;507;508
+input_data/pdb_files/3ifq.pdb_A	124	553	126	546	548	659;660
+input_data/pdb_files/3ifq.pdb_B	124	553	126	534	548	542;543;544;545;546;547;548;549;550;657;658;659;660;661
+input_data/pdb_files/3ifq.pdb_C	622	107	628	93	98	697;698;699;700;701
+input_data/pdb_files/3ifq.pdb_D	622	107	628	91	94	696;697;698
+input_data/pdb_files/3r6n.pdb_A	178	450	178	450	450	
+input_data/pdb_files/3r6n.pdb_B	178	450	179	447	447	

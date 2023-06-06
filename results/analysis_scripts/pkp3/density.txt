@@ -1,1 +1,0 @@
-density_custom_ranges={'PG-N':[(1, 125, 'PG')], 'PG-S':[(126, 673, 'PG')], 'PG-C':[(674, 745, 'PG')], 'DP-N':[(1, 177, 'DP')], 'DP-S':[(178, 584, 'DP')], 'PKP-N':[(1, 318, 'PKP3a')], 'PKP-S':[(319, 781, 'PKP3a')], 'PKP-C':[(782, 797, 'PKP3a')], 'DSG':['DSG1'], 'DSC':['DSC1'], 'GPKP':['GPKP1a']}

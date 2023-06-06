@@ -1,0 +1,1 @@
+seq 0 44 | parallel --joblog /data/desmosome/newrun_main/logs/joblog.txt --progress --sshdelay 1 --sshloginfile /data/desmosome/newrun_main/servers_dist '/data/desmosome/newrun_main/server_run.sh {}'

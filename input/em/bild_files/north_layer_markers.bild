@@ -1,0 +1,10 @@
+.comment boxes to show the North restraint 2-sigma bounds Red: PKP, Green: DP, Blue: PG
+.color red
+.transparency 0.6
+.box 40 135 40 210 179 210
+.box 15 251 15 255 295 255
+.color blue
+.box 40 205 40 210 241 210
+.box 15 326 15 255 362 255
+.color green
+.box 40 198 40 210 238 210

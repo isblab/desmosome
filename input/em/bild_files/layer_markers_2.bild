@@ -1,0 +1,4 @@
+.comment Blue box represents the box bounding the whole non-pm density
+.color blue
+.transparency 0.8
+.box 8 120 8 268 360 268

@@ -1,0 +1,273 @@
+full_PMremoved.mrc opened
+full_PMremoved_30.mrc opened
+full_PMremoved_40.mrc opened
+full_PMremoved_50.mrc opened
+full_PMremoved_60.mrc opened
+full_PMremoved_70.mrc opened
+full_PMremoved_80.mrc opened
+
+> fitmap #0 #1 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_30.mrc using 7261 points
+  correlation = 0.9531, correlation about mean = 0.9176, overlap = 0.0005108
+  steps = 68, shift = 0.309, angle = 0.217 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_30.mrc (#1) coordinates:
+  Matrix rotation and translation
+     0.99999336   0.00168964   0.00322826  -1.06107902
+    -0.00169302   0.99999802   0.00104518   0.23772029
+    -0.00322648  -0.00105064   0.99999424   0.87641784
+  Axis  -0.27639190   0.85123693  -0.44609776
+  Axis point 285.53160511   0.00000000 320.31119909
+  Rotation angle (degrees)   0.21723112
+  Shift along axis   0.10466191
+
+> fitmap #0 #2 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_40.mrc using 7261 points
+  correlation = 0.9608, correlation about mean = 0.9339, overlap = 0.0005281
+  steps = 44, shift = 0.237, angle = 0.149 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_40.mrc (#2) coordinates:
+  Matrix rotation and translation
+     0.99999899  -0.00015129   0.00141122  -0.23380359
+     0.00015005   0.99999960   0.00087776  -0.12642368
+    -0.00141135  -0.00087755   0.99999862   0.43236747
+  Axis  -0.52593707   0.84571736   0.09029036
+  Axis point 302.68388944   0.00000000 145.36148025
+  Rotation angle (degrees)   0.09561193
+  Shift along axis   0.05508589
+
+> fitmap #0 #3 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_50.mrc using 7261 points
+  correlation = 0.9631, correlation about mean = 0.9338, overlap = 0.0005287
+  steps = 52, shift = 0.211, angle = 0.174 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_50.mrc (#3) coordinates:
+  Matrix rotation and translation
+     0.99999920  -0.00115477  -0.00052392   0.29860003
+     0.00115412   0.99999856  -0.00124654   0.21680404
+     0.00052536   0.00124594   0.99999909  -0.41416262
+  Axis   0.70094196  -0.29508302   0.64931224
+  Axis point   0.00000000 268.10573493 144.35638472
+  Rotation angle (degrees)   0.10186914
+  Shift along axis  -0.12359476
+
+> fitmap #0 #4 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_60.mrc using 7261 points
+  correlation = 0.9646, correlation about mean = 0.9339, overlap = 0.0005307
+  steps = 44, shift = 0.18, angle = 0.274 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_60.mrc (#4) coordinates:
+  Matrix rotation and translation
+     0.99998993  -0.00145736   0.00424463  -0.10513794
+     0.00146395   0.99999773  -0.00154965   0.26153148
+    -0.00424236   0.00155585   0.99998979   0.14671793
+  Axis   0.32697221   0.89357920   0.30757990
+  Axis point  16.75592435   0.00000000  43.63981530
+  Rotation angle (degrees)   0.27209148
+  Shift along axis   0.24444940
+
+> fitmap #0 #5 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_70.mrc using 7261 points
+  correlation = 0.9677, correlation about mean = 0.9378, overlap = 0.0005329
+  steps = 52, shift = 0.204, angle = 0.274 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_70.mrc (#5) coordinates:
+  Matrix rotation and translation
+     0.99999979   0.00057317   0.00029742  -0.18968446
+    -0.00057324   0.99999981   0.00023474   0.15594934
+    -0.00029729  -0.00023491   0.99999993   0.03169697
+  Axis  -0.34175783   0.43275907  -0.83421890
+  Axis point 192.03164055 267.88049466   0.00000000
+  Rotation angle (degrees)   0.03936901
+  Shift along axis   0.10587243
+
+> fitmap #0 #6 metric correlation
+Fit map full_PMremoved.mrc in map full_PMremoved_80.mrc using 7261 points
+  correlation = 0.9677, correlation about mean = 0.9357, overlap = 0.0005349
+  steps = 60, shift = 0.302, angle = 0.0466 degrees
+Position of full_PMremoved.mrc (#0) relative to full_PMremoved_80.mrc (#6) coordinates:
+  Matrix rotation and translation
+     0.99999999  -0.00005686  -0.00015265   0.22505333
+     0.00005694   0.99999988   0.00048171   0.23272752
+     0.00015262  -0.00048172   0.99999987   0.12593269
+  Axis  -0.94730335  -0.30016083   0.11189209
+  Axis point   0.00000000 323.97690085 -315.45336502
+  Rotation angle (degrees)   0.02913584
+  Shift along axis  -0.26895858
+pkp_separate.mrc opened
+pkp_separate_10.mrc opened
+pkp_separate_20.mrc opened
+pkp_separate_30.mrc opened
+pkp_separate_40.mrc opened
+pkp_separate_50.mrc opened
+pkp_separate_60.mrc opened
+
+> fitmap #0 #1 metric correlation
+Fit map pkp_separate.mrc in map pkp_separate_10.mrc using 2695 points
+  correlation = 0.9549, correlation about mean = 0.9296, overlap = 0.0005959
+  steps = 56, shift = 1.21, angle = 1.34 degrees
+Position of pkp_separate.mrc (#0) relative to pkp_separate_10.mrc (#1) coordinates:
+  Matrix rotation and translation
+     0.99996601   0.00526530   0.00634400  -1.57914550
+    -0.00540341   0.99974440   0.02195319  -1.11481017
+    -0.00622679  -0.02198672   0.99973887   4.25897518
+  Axis  -0.93625709   0.26785415  -0.22732535
+  Axis point   0.00000000 195.23481453  55.63744381
+  Rotation angle (degrees)   1.34461047
+  Shift along axis   0.21170662
+
+> fitmap #0 #2 metric correlation
+Fit map pkp_separate.mrc in map pkp_separate_20.mrc using 2695 points
+  correlation = 0.9661, correlation about mean = 0.9435, overlap = 0.000618
+  steps = 60, shift = 0.694, angle = 1.72 degrees
+Position of pkp_separate.mrc (#0) relative to pkp_separate_20.mrc (#2) coordinates:
+  Matrix rotation and translation
+     0.99999229  -0.00040605   0.00390622  -0.19088074
+     0.00043525   0.99997195  -0.00747783   1.48713346
+    -0.00390307   0.00747948   0.99996441  -0.82943811
+  Axis   0.88535204   0.46224654   0.04979862
+  Axis point   0.00000000 114.87577098 168.94774009
+  Rotation angle (degrees)   0.48398886
+  Shift along axis   0.47712077
+
+> fitmap #0 #3 metric correlation
+Fit map pkp_separate.mrc in map pkp_separate_30.mrc using 2695 points
+  correlation = 0.9734, correlation about mean = 0.9552, overlap = 0.0006268
+  steps = 48, shift = 0.197, angle = 0.333 degrees
+Position of pkp_separate.mrc (#0) relative to pkp_separate_30.mrc (#3) coordinates:
+  Matrix rotation and translation
+     0.99999769   0.00111805   0.00183805  -0.26690495
+    -0.00111389   0.99999682  -0.00226299   0.84633042
+    -0.00184057   0.00226094   0.99999575  -0.17533621
+  Axis   0.72459676   0.58920308  -0.35749022
+  Axis point   0.00000000  19.89540542 278.16005391
+  Rotation angle (degrees)   0.17885989
+  Shift along axis   0.36794301
+
+> fitmap #0 #4 metric correlation
+Fit map pkp_separate.mrc in map pkp_separate_40.mrc using 2695 points
+  correlation = 0.9767, correlation about mean = 0.9578, overlap = 0.0006267
+  steps = 64, shift = 0.225, angle = 0.221 degrees
+Position of pkp_separate.mrc (#0) relative to pkp_separate_40.mrc (#4) coordinates:
+  Matrix rotation and translation
+     0.99999856  -0.00162406   0.00049022   0.29463017
+     0.00162401   0.99999868   0.00009300  -0.06778068
+    -0.00049037  -0.00009221   0.99999988   0.10849800
+  Axis  -0.05450801   0.28858708   0.95590082
+  Axis point  53.98628279 183.65356185   0.00000000
+  Rotation angle (degrees)   0.09734319
+  Shift along axis   0.06809300
+
+> fitmap #0 #5 metric correlation
+Fit map pkp_separate.mrc in map pkp_separate_50.mrc using 2695 points
+  correlation = 0.9783, correlation about mean = 0.9588, overlap = 0.0006275
+  steps = 52, shift = 0.181, angle = 0.205 degrees
+Position of pkp_separate.mrc (#0) relative to pkp_separate_50.mrc (#5) coordinates:
+  Matrix rotation and translation
+     0.99999707  -0.00173506   0.00168793   0.17209162
+     0.00172920   0.99999249   0.00346774  -0.40505606
+    -0.00169393  -0.00346482   0.99999256   0.74084822
+  Axis  -0.81987083   0.39995099   0.40969627
+  Axis point   0.00000000 213.51805273 117.31833228
+  Rotation angle (degrees)   0.24223792
+  Shift along axis   0.00042728
+
+> fitmap #0 #6 metric correlation
+Fit map pkp_separate.mrc in map pkp_separate_60.mrc using 2695 points
+  correlation = 0.9789, correlation about mean = 0.9542, overlap = 0.0006215
+  steps = 48, shift = 0.248, angle = 0.35 degrees
+Position of pkp_separate.mrc (#0) relative to pkp_separate_60.mrc (#6) coordinates:
+  Matrix rotation and translation
+     0.99999903  -0.00031264  -0.00135407   0.21493427
+     0.00031044   0.99999863  -0.00162692   0.33583433
+     0.00135457   0.00162650   0.99999776  -0.45188329
+  Axis   0.76032478  -0.63301074   0.14561467
+  Axis point   0.00000000 267.75584628 161.46551762
+  Rotation angle (degrees)   0.12258388
+  Shift along axis  -0.11496773
+pgdp_separate.mrc opened
+pgdp_separate_20.mrc opened
+pgdp_separate_30.mrc opened
+pgdp_separate_40.mrc opened
+pgdp_separate_50.mrc opened
+pgdp_separate_60.mrc opened
+pgdp_separate_70.mrc opened
+
+> fitmap #0 #1 metric correlation
+Fit map pgdp_separate.mrc in map pgdp_separate_20.mrc using 4604 points
+  correlation = 0.953, correlation about mean = 0.9119, overlap = 0.0004562
+  steps = 52, shift = 0.633, angle = 0.189 degrees
+Position of pgdp_separate.mrc (#0) relative to pgdp_separate_20.mrc (#1) coordinates:
+  Matrix rotation and translation
+     0.99999456   0.00235981   0.00230250  -1.22070121
+    -0.00235950   0.99999721  -0.00013587  -0.22140658
+    -0.00230282   0.00013044   0.99999734   0.37015261
+  Axis   0.04035358   0.69784135  -0.71511470
+  Axis point  44.11401295 509.37900078   0.00000000
+  Rotation angle (degrees)   0.18905848
+  Shift along axis  -0.46846791
+
+> fitmap #0 #2 metric correlation
+Fit map pgdp_separate.mrc in map pgdp_separate_30.mrc using 4604 points
+  correlation = 0.9634, correlation about mean = 0.9335, overlap = 0.0004693
+  steps = 52, shift = 0.408, angle = 0.0767 degrees
+Position of pgdp_separate.mrc (#0) relative to pgdp_separate_30.mrc (#2) coordinates:
+  Matrix rotation and translation
+     0.99999560   0.00269652   0.00123257  -0.85227217
+    -0.00269725   0.99999619   0.00059325  -0.02117968
+    -0.00123096  -0.00059657   0.99999906   0.39250483
+  Axis  -0.19673317   0.40733499  -0.89183758
+  Axis point  20.52676874 330.03332431  -0.00000000
+  Rotation angle (degrees)   0.17326044
+  Shift along axis  -0.19100758
+
+> fitmap #0 #3 metric correlation
+Fit map pgdp_separate.mrc in map pgdp_separate_40.mrc using 4604 points
+  correlation = 0.9668, correlation about mean = 0.9316, overlap = 0.0004695
+  steps = 44, shift = 0.254, angle = 0.0818 degrees
+Position of pgdp_separate.mrc (#0) relative to pgdp_separate_40.mrc (#3) coordinates:
+  Matrix rotation and translation
+     0.99999620   0.00251843   0.00111955  -0.78918543
+    -0.00251751   0.99999650  -0.00081869   0.38252672
+    -0.00112161   0.00081587   0.99999904  -0.09451829
+  Axis   0.28430315   0.38981034  -0.87591074
+  Axis point 150.34208496 314.44174563   0.00000000
+  Rotation angle (degrees)   0.16470764
+  Shift along axis   0.00753456
+
+> fitmap #0 #4 metric correlation
+Fit map pgdp_separate.mrc in map pgdp_separate_50.mrc using 4604 points
+  correlation = 0.9698, correlation about mean = 0.9425, overlap = 0.0004762
+  steps = 36, shift = 0.17, angle = 0.0663 degrees
+Position of pgdp_separate.mrc (#0) relative to pgdp_separate_50.mrc (#4) coordinates:
+  Matrix rotation and translation
+     0.99999812   0.00192759   0.00020314  -0.51338264
+    -0.00192734   0.99999742  -0.00120375   0.18683190
+    -0.00020546   0.00120336   0.99999925  -0.28629856
+  Axis   0.52751921   0.08954383  -0.84481086
+  Axis point  97.15305189 263.08449770   0.00000000
+  Rotation angle (degrees)   0.13072230
+  Shift along axis  -0.01222143
+
+> fitmap #0 #5 metric correlation
+Fit map pgdp_separate.mrc in map pgdp_separate_60.mrc using 4604 points
+  correlation = 0.9728, correlation about mean = 0.9461, overlap = 0.0004773
+  steps = 40, shift = 0.123, angle = 0.127 degrees
+Position of pgdp_separate.mrc (#0) relative to pgdp_separate_60.mrc (#5) coordinates:
+  Matrix rotation and translation
+     0.99999870   0.00049442   0.00153767  -0.32345164
+    -0.00049098   0.99999738  -0.00223544   0.23430278
+    -0.00153878   0.00223468   0.99999632  -0.40491693
+  Axis   0.81050828   0.55781152  -0.17866905
+  Axis point   0.00000000 186.11970540 119.34628038
+  Rotation angle (degrees)   0.15799939
+  Shift along axis  -0.05911731
+
+> fitmap #0 #6 metric correlation
+Fit map pgdp_separate.mrc in map pgdp_separate_70.mrc using 4604 points
+  correlation = 0.9731, correlation about mean = 0.9421, overlap = 0.0004755
+  steps = 44, shift = 0.182, angle = 0.125 degrees
+Position of pgdp_separate.mrc (#0) relative to pgdp_separate_70.mrc (#6) coordinates:
+  Matrix rotation and translation
+     0.99999974  -0.00061253   0.00036797   0.03113041
+     0.00061281   0.99999953  -0.00075711   0.02009171
+    -0.00036751   0.00075733   0.99999965  -0.11507213
+  Axis   0.72729538   0.35320611   0.58846144
+  Axis point   0.00000000 122.45503380  44.17825209
+  Rotation angle (degrees)   0.05965323
+  Shift along axis  -0.03797799

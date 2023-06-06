@@ -1,0 +1,14 @@
+.comment RGB arrows represent the XYZ axes respectively
+.color red
+.arrow 0 0 0 100 0 0 3 12 0.9
+.color green
+.arrow 0 0 0 0 100 0 3 12 0.9
+.color blue
+.arrow 0 0 0 0 0 100 3 12 0.9
+.comment Red polygon represents the upper surface of the plasma membrane
+.color red
+.polygon 8 115 8 8 115 268 268 115 268 268 115 8
+.comment Green box represents the box bounding the pkp layer
+.color green
+.transparency 0.7
+.box 15 130 15 255 220 255

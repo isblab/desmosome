@@ -1,0 +1,1 @@
+seq 0 29 | parallel --joblog /data/desmosome/newrun_main_pkp3_dc3/logs/joblog.txt --progress --sshdelay 1 --sshloginfile /data/desmosome/newrun_main_pkp3_dc3/servers_dist '/data/desmosome/newrun_main_pkp3_dc3/server_run.sh {}'

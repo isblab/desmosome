@@ -1,0 +1,10 @@
+stdbuf -oL mpirun -np 8 python -u representation_sampling.py
+OUTPUT_PATH : #./output16# #./output17# #./output18# #./output19# #./output20# #./output21# #./output22# #./output23# #./output24# #./output25# #./output26# #./output27# #./output28# #./output29# #./output30#
+PG_MT : 2.5 2.5 2.5 2.5 2.5 2 2 2 2 2 2 2 2 2 2
+DP_MT : 3.5 3.5 3.5 3.5 3.5 3 3 3 3 3 3 3 3 3 3
+BEAD_MT : 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+DP_S_MT : 4 4 4 4 4 4 4 4 4 4 3.5 3.5 3.5 3.5 3.5
+PG_S_MT : 2.5 2.5 2.5 2.5 2.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5
+DP_NUMBER : 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7
+PG_NUMBER : 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7
+REX_MAX_TEMP : 4 4 4 4 4 4 4 4 4 4 3.75 3.75 3.75 3.75 3.75

@@ -1,0 +1,1 @@
+density_custom_ranges={'PG':'PG', 'DP':'DP', 'PKP':'PKP1a', 'DC':['DSG1', 'DSC1'], 'GPKP':'G_PKP1a'}
