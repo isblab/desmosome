@@ -12,7 +12,7 @@ This contains the scripts of the main modeling setup (stratified epithelial ODP 
 
 ### Custom Module
 
-`custom_imp_module`: Contains the custom IMP module, "Desmosome", that contains C++ implementations of certain restraints (Cylinder and Immuno-EM). These files are located in `src` as `CylinderLocalizationRestraint` and `SingleAxisMinGaussianRestraint` (the other files are either used in auxiliary runs or not used for modeling). The `tests` contains some unit-tests for the same implementations. Compiling IMP with this module is necessary to run the subsequent scripts. See the instructions for compilation see the [official guide](https://integrativemodeling.org/nightly/doc/manual/installation.html).
+`custom_imp_module`: Contains the custom IMP module, "Desmosome", that contains C++ implementations of certain restraints (Cylinder and Immuno-EM). These files are located in `src` as `CylinderLocalizationRestraint` and `SingleAxisMinGaussianRestraint` (the other files are either used in auxiliary runs or not used for modeling). The `tests` contains some unit-tests for the same implementations. Compiling IMP with this module is necessary to run the subsequent scripts. See the instructions for compilation see the [official guide](https://integrativemodeling.org/nightly/doc/manual/installation.html). Also see `auto_compile.sh` and `install_all.sh` in `utils_helpers_archive`.
 
 ----
 
