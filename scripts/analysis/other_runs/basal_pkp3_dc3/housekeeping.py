@@ -17,8 +17,8 @@ matplotlib.use('agg')
 # this is to double-check if the MC ratios were in the optimal zone
 mac = 'MonteCarlo_Acceptance'
 macb = 'MonteCarlo_Acceptance_BallMover'
-mcs_main_strings = [f'{mac}_pg_ds[cg]1_structure', f'{mac}_dp_structure',
-                    f'{mac}_pkp1a_structure', f'{mac}_pg_ds[cg]1_srb',
+mcs_main_strings = [f'{mac}_pg_ds[cg]3_structure', f'{mac}_dp_structure',
+                    f'{mac}_pkp3a_structure', f'{mac}_pg_ds[cg]3_srb',
                     f'{macb}-[0-9]+-[0-9]+_bead_([0-9]|[1-6][0-9]|7[0-5])$',
                     f'{macb}-[0-9]+-[0-9]+_bead_(12[0-9]|13[0-1]|14[0-9]|15[0-1]|16[0-9]|17[0-1]|18[5-9]|19[0-6])$',
                     f'{macb}-[0-9]+-[0-9]+_bead_([8-9][0-9]|10[0-9]|11[0-8])$',

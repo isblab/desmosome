@@ -63,8 +63,8 @@ locs = np.array(locs)
 fig = plt.figure(figsize=(8, 8))
 gs = gridspec.GridSpec(10, 11)
 ax_main = plt.subplot(gs[2:, :8])
-ax_xDist = plt.subplot(gs[:2, :8], sharex=ax_main)
-ax_yDist = plt.subplot(gs[2:, 8:10], sharey=ax_main)
+ax_xDist = plt.subplot(gs[:2, :8])
+ax_yDist = plt.subplot(gs[2:, 8:10])
 only_cbar = plt.subplot(gs[:, 10])
 im = ax_main.imshow(data['predicted_aligned_error'][:n[0], n[0]:], aspect='auto', vmin=0, vmax=15, cmap='magma')
 ax_main.set_xticks(list(range(0, n[1], 50)))
@@ -76,8 +76,43 @@ ax_xDist.fill_between(list(range(n[1])), new_b[n[0]:], [0] * n[1], color='red', 
 ax_yDist.fill_betweenx(list(range(n[0])), b[:n[0]], [0] * n[0], color='black', zorder=0)
 ax_yDist.fill_betweenx(list(range(n[0])), new_b[:n[0]], [0] * n[0], color='red', zorder=1)
 ax_xDist.set_xticks([])
+ax_xDist.set_xlim(ax_main.get_xlim())
 ax_yDist.set_yticks([])
+ax_yDist.set_ylim(ax_main.get_ylim())
 plt.savefig(f'{outf}/{name}_pae_contact_map.png')
+plt.close()
+
+fig, ax = plt.subplots(1, 3, figsize=(24, 8))
+ax_main = ax[0]
+ax_1 = ax[1]
+ax_2 = ax[2]
+pae_matrix = (data['predicted_aligned_error'][:n[0], n[0]:] < 5)
+plddt_matrix = np.zeros(pae_matrix.shape, dtype=bool)
+for i in range(plddt_matrix.shape[0]):
+    plddt_matrix[i] = b[i] > 70
+for i in range(plddt_matrix.shape[1]):
+    plddt_matrix[:, i] = b[n[0] + i] > 70
+contact_matrix = np.zeros(pae_matrix.shape, dtype=float)
+for i in range(n[0]):
+    for j in range(n[1]):
+        l1 = locs[i]
+        l2 = locs[n[0] + j]
+        contact_matrix[i, j] = np.sqrt(np.sum((l1 - l2) ** 2))
+boolean = np.logical_and(plddt_matrix, pae_matrix)
+im = ax_main.imshow(contact_matrix, aspect='auto', vmin=10, vmax=30, cmap='magma')
+ax_1.imshow(boolean, aspect='auto', cmap='magma')
+censored_matrix = contact_matrix.copy()
+censored_matrix[np.logical_not(boolean)] = 100
+ax_2.imshow(censored_matrix, aspect='auto', vmin=10, vmax=30, cmap='magma')
+plt.colorbar(im, ax=ax_main)
+ax_main.set_xticks(list(range(0, n[1], 50)))
+ax_main.set_yticks(list(range(0, n[0], 50)))
+ax_1.set_xticks(list(range(0, n[1], 50)))
+ax_1.set_yticks(list(range(0, n[0], 50)))
+ax_2.set_xticks(list(range(0, n[1], 50)))
+ax_2.set_yticks(list(range(0, n[0], 50)))
+plt.tight_layout()
+plt.savefig(f'{outf}/{name}_pae_contact_map_binary.svg')
 plt.close()
 
 b = np.array(b)
@@ -85,7 +120,7 @@ chains = []
 resnums = []
 for i in range(len(n)):
     chains += [i] * n[i]
-    resnums += list(range(n[i]))
+    resnums += list(range(1, n[i] + 1))
 chains = np.array(chains)
 resnums = np.array(resnums)
 assert (np.max(np.abs(np.round(np.array(data['plddt']), 2) - b)) < 1e-3)
