@@ -2,7 +2,7 @@
 Code repository for the Desmosomal ODP project
 
 
-Citation: [Pasani S, Menon KS, Viswanath S (2023). The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling](link to the paper)
+Citation: [Pasani S, Menon KS, Viswanath S (2023). The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling](link_to_the_paper)
 
 
 ![Image](./metadata/thumb.png)
