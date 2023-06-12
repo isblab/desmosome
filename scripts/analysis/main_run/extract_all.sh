@@ -3,7 +3,6 @@ python -u housekeeping.py . plots 45 1> housekeeping_report_1.txt 2> housekeepin
 ~/imp-custom/build/setup_environment.sh python -u analysis.py . 45 45 2 1>analysis_report_1.txt 2>analysis_report_2.txt
 ~/imp-custom/build/setup_environment.sh python variable_filter.py -c 3 -n 25000 -ss 0.01 -lc -3 -hc 4 -g ./analysis_output/
 ~/imp-custom/build/setup_environment.sh python extract_models.py . 45 45 3
-rm -r output*
 cd analysis_output
 mkdir sampcon_output
 cd sampcon_output

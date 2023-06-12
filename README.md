@@ -29,9 +29,7 @@ This step involves getting the good scoring models, running [Sampcon](https://gi
 3. All the output is generated in `analysis_output` directory.
 
 ## Alphafold results 
-Finally, we also run [Alphafold2-Multimer](https://github.com/deepmind/alphafold) and subsequent analysis. The input of AF2-Multimer is available in `scripts/analysis/alphafold/{specific_protein_pair}`. The output (best performing `ranked_0.pdb` and the corresponding `.pkl` file based on the order in `ranking_debug.json`) of AF2-Multimer is stored in individual directories specific to each protein pair after which the script `scripts/analysis/alphafold/alphafold_analysis.py` is run as `python alphafold_analysis.py {path_to_a_prot-pair_specific_folder} {output_path} {prot-pair_identifier}`. See [scripts README](https://github.com/isblab/desmosome/blob/main/scripts/README.md) for further details. 
-
-6. Also note that the shell script deletes all the `output{number}` directories after running a few steps to minimize space requirements. **Backup the data elsewhere before running.**
+Finally, we also run [Alphafold2-Multimer](https://github.com/deepmind/alphafold) and subsequent analysis. The input of AF2-Multimer is available in `scripts/analysis/alphafold/{specific_protein_pair}`. The output (best performing `ranked_0.pdb` and the corresponding `.pkl` file based on the order in `ranking_debug.json`) of AF2-Multimer is stored in individual directories specific to each protein pair after which the script `scripts/analysis/alphafold/alphafold_analysis.py` is run as `python alphafold_analysis.py {path_to_a_prot-pair_specific_folder} {output_path} {prot-pair_identifier}`. See [scripts README](https://github.com/isblab/desmosome/blob/main/scripts/README.md) for further details.
 
 ## Versions and Requirements
 All of the modeling and analysis was done in a multi-server setup with Linux Fedora using Bash scripts. Pre-processing (homology modeling, tomogram processing) was done in Windows 10. The python libraries (and their versions) used in the project are as follows:
@@ -54,6 +52,6 @@ Additional Linux software needed to run all the scripts in the repository:
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
 International License.\
 **Last known good IMP version:** [![build info](https://integrativemodeling.org/systems/41/badge.svg?branch=main)](https://integrativemodeling.org/systems/) \
-**Testable:** Yes\
+**Testable:** TBD.\
 **Parallelizeable:** Yes\
 **Publications:**  TBD. DOI: [TBD](TBD).

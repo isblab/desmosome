@@ -25,9 +25,9 @@ Modeling each ODP involved parallelizing 45 runs across several servers using [G
 
 **Note**: `representation_sampling.py` expects the input data to be in a different directory structure than the `input` directory in this repository. 
 
-The expected structure is as follows: all the required fasta files and the PDB files inside a directory called `data` in the working directory (from which the script is called), with a subdirectory `data/gmm` that contains the `.mrc` files and the GMM `.txt` files corresponding to the tomogram GMMs (for the specific densities see README in `data/em`). An example setup is given under `inputs/data` which corresponds to the `data` folder for the main run. Minor modifications of the header in `FASTA` files or the GMM files might be needed (see the note [here](https://github.com/isblab/desmosome/blob/main/input/em/README.md))
+The expected structure is as follows: all the required fasta files and the PDB files inside a directory called `data` in the working directory (from which the script is called), with a subdirectory `data/gmm` that contains the `.mrc` files and the GMM `.txt` files corresponding to the tomogram GMMs (for the specific densities see README in `data/em`). An example setup is given under `inputs/data` which corresponds to the `data` folder for the main run. Minor modifications of the header in `FASTA` files or the GMM files might be needed for other runs but is already done for the example `data` directory (see the note [here](https://github.com/isblab/desmosome/blob/main/input/em/README.md))
 
-The results are in the `results` folder and Zenodo (see the README in the `results` folder)
+The results are in the `results` folder and Zenodo (see the [results README](https://github.com/isblab/desmosome/blob/main/results/README.md)).
 
 ----
 
