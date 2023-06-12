@@ -23,7 +23,9 @@ Modeling each ODP involved parallelizing 45 runs across several servers using [G
 1. `representation_sampling.py`: The main modeling script that `server_run.sh` runs for each run for each replica. All the specific parameters relevant to the modeling are defined here.
 2. `server_run.sh`: This is called by `all_run.sh` in each server to run one individual run (containing 8 replicas)
 
-**Note**: `representation_sampling.py` expects the input data to be in a different directory structure than the `input` directory in this repository. The expected structure is as follows: all the required fasta files and the PDB files inside a directory called `data` in the working directory (from which the script is called), with a subdirectory `data/gmm` that contains the `.mrc` files and the GMM `.txt` files corresponding to the tomogram GMMs (for the specific densities see README in `data/em`). An example setup is given under `inputs/example_data_folder` which corresponds to the `data` folder for the main run. Minor modifications of the header in `FASTA` files or the GMM files might be needed (see the note [here](https://github.com/isblab/desmosome/blob/main/input/em/README.md))
+**Note**: `representation_sampling.py` expects the input data to be in a different directory structure than the `input` directory in this repository. 
+
+The expected structure is as follows: all the required fasta files and the PDB files inside a directory called `data` in the working directory (from which the script is called), with a subdirectory `data/gmm` that contains the `.mrc` files and the GMM `.txt` files corresponding to the tomogram GMMs (for the specific densities see README in `data/em`). An example setup is given under `inputs/data` which corresponds to the `data` folder for the main run. Minor modifications of the header in `FASTA` files or the GMM files might be needed (see the note [here](https://github.com/isblab/desmosome/blob/main/input/em/README.md))
 
 The results are in the `results` folder and Zenodo (see the README in the `results` folder)
 
@@ -44,7 +46,7 @@ Additionally, the main run directory contains some extra files:
 2. `validation_fit_to_data.py`: Same as above for the fit to data not used in modeling.
 3. `cuttoff_compute.py`: Generates the table of cutoffs for different thresholds that can be used in creating the contact maps. See also `utils_helpers_archive/rectangle_overlap.py` to see how the regions of a lower threshold (>0.2 in the paper) are separated from those at a higher threshold (>0.25 in the paper)
 4. `compare_sample_A_B.py`: Compares the Sample A/B Localization Densities using an implementation of cross-correlation as part of statistical tests for sampling exhaustiveness
-5. `chimera_density.py`: The Chimera script that can load the densities and apply the visualization thresholds used in the paper. **The same thresholds are used for all the three runs.**. Also see Note below.
+5. `chimera_density.py`: The Chimera script that can load the densities and apply the visualization thresholds used in the paper. **The same thresholds are used for all the three runs.**. 
 
 ----
 
@@ -59,5 +61,3 @@ Additionally, separate runs were done to calculate the number of protein copies 
 We employed [AF2-Multimer](https://github.com/deepmind/alphafold) on all protein-pairs of interest. The best predicted PDB for each protein-pair as well as the input sequences are found in protein-pair specific directories in `analysis/alphafold` (without the `.pkl` files due to space constraints). The script `alphafold_analyze.py` generates the pLDDT/PAE figures (not used in paper, needs the `.pkl` files), contact maps used in the paper and the interface lists. The script accepts a folder containing the best performing model (`ranked_0.pdb`), the `ranking_debug.json` file to identify the corresponding `.pkl` file, and the corresponding `.pkl` file. Generated PAE/PLDDT figures and the contact lists are uploaded (`results/alphafold_analysis_output`). Note that the PAE matrix returned by AF2-Multimer is not strictly symmetric, hence, the contacts between chain A -> B and B -> A can differ. For the paper, we use the former, even though the overall disagreement between the two is minimal.
 
 ----
-
-*Note*: Interestingly, the density visualization thresholds can be thought of as an indirect proxy for the precision of the domain in the integrative structure. For example, PKP-N has a threshold twice as large as PKP-S for the resultant isosurfaces to roughly localize to the same enclosed volume for visibility, indicating that PKP-N is less precisely localized in the model than PKP-S
