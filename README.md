@@ -1,6 +1,7 @@
 # Integrative structure of the desmosome outer dense plaque  
 
-This repository is of the integrative model of the desmosome ODP based on data from X-ray crystallography, electron cryo-tomography, immuno-electron microscopy, yeast two-hybrid experiments, co-immunoprecipitation, in vitro overlay, in vivo co-localization assays, in-silico sequence-based predictions of transmembrane and disordered regions, homology modeling, and stereochemistry information. It contains input data, scripts for modeling and results including bead models and localization probability density maps. The modeling was performed using IMP (Integrative Modeling Platform).
+This repository is of the integrative model of the desmosome ODP based on data from X-ray crystallography, electron cryo-tomography, immuno-electron microscopy, yeast two-hybrid experiments, co-immunoprecipitation, in vitro overlay, in vivo co-localization assays, in-silico sequence-based predictions of transmembrane and disordered regions, homology modeling, and stereochemistry information. It contains input data, scripts for modeling and results including bead models and localization probability density maps. 
+The modeling was performed using IMP (Integrative Modeling Platform).
 
 Citation: [Pasani S, Menon KS, Viswanath S (2023). The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling](link_to_the_paper)
 
