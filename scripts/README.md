@@ -33,7 +33,7 @@ The results are in the `results` folder and Zenodo (see the [results README](htt
 
 ### Analysis of ODPs
 Analysis involved running sampling exhaustiveness, plotting, contact-map generation and all the processing after sampling the models. Each ODP-specific folder contains several common files:
-1. `extract_all.sh`: The set of commands to reproduce the analysis results. This requires all the "output" folders, corresponding to the 45 runs sampled above, to be present in the directory this script is run from. The output directory, `analysis_output` has to be created manually. Ensure that the paths used in the script (for example, the path to the IMP-installation setup script) are correct.
+1. `extract_all.sh`: The set of commands to reproduce the analysis results. This requires all the "output" folders, corresponding to the 45 runs sampled above, to be present in the directory this script is run from. The output directory, `analysis_output` has to be created manually. Ensure that the paths used in the script (for example, the path to the IMP-installation setup script, or to the `.mrc` files) are correct.
 2. `analysis.py`: This implements HDBSCAN with `n_skip=2` (based on autocorrelation decay, see below) to create a set of `selected_models`
 3. `variable_filter.py`: Filters the `selected_models` of the largest cluster identified above to create a subset, `gsm` (good scoring models), by filtering all models with restraint-specific and the total score worse than `mean + c * SD` where `c` is calculated to maximize computational efficiency
 4. `extract_models.py`: Extracts the filtered models into RMF files
