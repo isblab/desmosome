@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8035863.svg)](https://doi.org/10.5281/zenodo.8035863)
+
 # Integrative structure of the desmosome outer dense plaque  
 
 This repository is of the integrative model of the desmosome ODP based on data from X-ray crystallography, electron cryo-tomography, immuno-electron microscopy, yeast two-hybrid experiments, co-immunoprecipitation, in vitro overlay, in vivo co-localization assays, in-silico sequence-based predictions of transmembrane and disordered regions, homology modeling, and stereochemistry information. It contains input data, scripts for modeling and results including bead models and localization probability density maps. 
@@ -9,7 +11,7 @@ Citation: [Pasani S, Menon KS, Viswanath S (2023). The molecular architecture of
 
 ## Layout
 There are 3 main folders:  `input`, `scripts`, `results`. There is an explanation README for the folder-specific contents in each of the folders ([input](https://github.com/isblab/desmosome/blob/main/input/README.md), [scripts](https://github.com/isblab/desmosome/blob/main/scripts/README.md), [results](https://github.com/isblab/desmosome/blob/main/results/README.md)) and the general protocol is explained below. 
-Additional data is uploaded in [Zenodo](link) (the set of major cluster models corresponding to the main modeling run presented in the paper).
+Additional data is uploaded in [Zenodo](https://zenodo.org/record/8035863) (the set of major cluster models corresponding to the main modeling run presented in the paper).
 
 ## Protocol Summary
 The below description applies to the main run (epithelial ODP) as well as two auxillary runs (epithelial ODP with PKP3, basal ODP). For preprocessing of the data (homology modeling, GMM generation, etc) see [inputs README](https://github.com/isblab/desmosome/blob/main/input/README.md).
