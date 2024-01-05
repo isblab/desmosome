@@ -47,6 +47,8 @@ Additionally, the main run directory contains some extra files:
 3. `cuttoff_compute.py`: Generates the table of cutoffs for different thresholds that can be used in creating the contact maps. See also `utils_helpers_archive/rectangle_overlap.py` to see how the regions of a lower threshold (>0.2 in the paper) are separated from those at a higher threshold (>0.25 in the paper)
 4. `compare_sample_A_B.py`: Compares the Sample A/B Localization Densities using an implementation of cross-correlation as part of statistical tests for sampling exhaustiveness
 5. `chimera_density.py`: The Chimera script that can load the densities and apply the visualization thresholds used in the paper. **The same thresholds are used for all the three runs.**. 
+6. `sikora_dsc_dsg.py`: Generates one of the subfigures and computes fit to the data from Sikora et al.
+7. `align_pdb_to_rmf.py`: Aligns and outputs PDBs to the corresponding rigid body locations in a given RMF (eg: cluster center model)
 
 ----
 
