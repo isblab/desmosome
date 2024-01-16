@@ -6,12 +6,14 @@ This repository is of the integrative model of the desmosome ODP based on data f
 The modeling was performed using IMP (Integrative Modeling Platform).
 
 Citation: [Pasani S, Menon KS, Viswanath S, The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling, Biorxiv (2023).](https://www.biorxiv.org/content/10.1101/2023.06.13.544884v1)
+
 Dataset: [Zenodo](https://zenodo.org/doi/10.5281/zenodo.8035862) 
 
 ![Image](./metadata/thumb.png)
 
 ## Layout
 There are 3 main folders:  `input`, `scripts`, `results`. There is an explanation README for the folder-specific contents in each of the folders ([input](https://github.com/isblab/desmosome/blob/main/input/README.md), [scripts](https://github.com/isblab/desmosome/blob/main/scripts/README.md), [results](https://github.com/isblab/desmosome/blob/main/results/README.md)) and the general protocol is explained below. 
+
 Additional data is uploaded in [Zenodo](https://zenodo.org/doi/10.5281/zenodo.8035862) (the set of major cluster models corresponding to the main modeling run presented in the paper).
 
 ## Protocol Summary
