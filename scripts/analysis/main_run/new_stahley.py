@@ -92,6 +92,6 @@ if __name__ == '__main__':
         part.set_alpha(1)
     ax[0].set_xticks(np.arange(len(all_ds)))
     ax[0].set_xticklabels(restraint_domains_names)
-    ax[0].set_ylabel('Minimum distance from the data mean')
+    ax[0].set_ylabel('Minimum distance from the data mean Å')
     plt.savefig(f'{save_path}/stahley.svg')
     plt.close()
