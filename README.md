@@ -1,13 +1,9 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8035862.svg)]([https://doi.org/10.5281/zenodo.8035862])
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8035862.svg)](https://doi.org/10.5281/zenodo.8035862)
 
 # Integrative structure of the desmosome outer dense plaque  
 
 This repository is of the integrative model of the desmosome ODP based on data from X-ray crystallography, electron cryo-tomography, immuno-electron microscopy, yeast two-hybrid experiments, co-immunoprecipitation, in vitro overlay, in vivo co-localization assays, in-silico sequence-based predictions of transmembrane and disordered regions, homology modeling, and stereochemistry information. It contains input data, scripts for modeling and results including bead models and localization probability density maps. 
 The modeling was performed using IMP (Integrative Modeling Platform).
-
-Citation: [Pasani S, Menon KS, Viswanath S, The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling, Biorxiv (2023).](https://www.biorxiv.org/content/10.1101/2023.06.13.544884v1)
-
-Dataset: [Zenodo](https://zenodo.org/doi/10.5281/zenodo.8035862) 
 
 ![Image](./metadata/thumb.png)
 
@@ -34,7 +30,9 @@ This step involves getting the good scoring models, running [Sampcon](https://gi
 3. All the output is generated in `analysis_output` directory.
 
 ## Alphafold results 
-Finally, we also run [Alphafold2-Multimer](https://github.com/deepmind/alphafold) and subsequent analysis. The input of AF2-Multimer is available in `scripts/analysis/alphafold/{specific_protein_pair}`. The output (best performing `ranked_0.pdb` and the corresponding `.pkl` file based on the order in `ranking_debug.json`) of AF2-Multimer is stored in individual directories specific to each protein pair after which the script `scripts/analysis/alphafold/alphafold_analysis.py` is run as `python alphafold_analysis.py {path_to_a_prot-pair_specific_folder} {output_path} {prot-pair_identifier}`. See [scripts README](https://github.com/isblab/desmosome/blob/main/scripts/README.md) for further details.
+Finally, we also run [Alphafold3](https://alphafoldserver.com) on all pairs of desmosomal proteins as well as on the entire ODP. 
+#TODO
+The input of AF2-Multimer is available in `scripts/analysis/alphafold/{specific_protein_pair}`. The output (best performing `ranked_0.pdb` and the corresponding `.pkl` file based on the order in `ranking_debug.json`) of AF2-Multimer is stored in individual directories specific to each protein pair after which the script `scripts/analysis/alphafold/alphafold_analysis.py` is run as `python alphafold_analysis.py {path_to_a_prot-pair_specific_folder} {output_path} {prot-pair_identifier}`. See [scripts README](https://github.com/isblab/desmosome/blob/main/scripts/README.md) for further details.
 
 ## Versions and Requirements
 All of the modeling and analysis was done in a multi-server setup with Linux Fedora using Bash scripts. Pre-processing (homology modeling, tomogram processing) was done in Windows 10. The python libraries (and their versions) used in the project are as follows:
@@ -52,11 +50,11 @@ Additional Linux software needed to run all the scripts in the repository:
 
 ### Information
 **Author(s):** Satwik Pasani, Kavya S Menon, Shruthi Viswanath\
-**Date**: June 12th, 2023\
+**Date**: August 12th, 2024\
 **License:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
-International License.\
-**Last known good IMP version:** [![build info](https://integrativemodeling.org/systems/41/badge.svg?branch=main)](https://integrativemodeling.org/systems/) \
-**Testable:** TBD.\
+International License. 
+**Last known good IMP version:** Not tested  
+**Testable:** Yes
 **Parallelizeable:** Yes\
 **Publications:**  Pasani S, Menon KS, Viswanath S (2023). The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling. [DOI](https://doi.org/10.1101/2023.06.13.544884).
