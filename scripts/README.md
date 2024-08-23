@@ -23,7 +23,7 @@ Modeling each ODP involved parallelizing 45 runs across several servers using [G
 1. `representation_sampling.py`: The main modeling script that `server_run.sh` runs for each run for each replica. All the specific parameters relevant to the modeling are defined here.
 2. `server_run.sh`: This is called by `all_run.sh` in each server to run one individual run (containing 8 replicas)
 
-**Note**: `representation_sampling.py` expects the input data to be in a different directory structure than the `input` directory in this repository. 
+**Note**: `representation_sampling.py` expects the input data to be in a different directory structure than the `input` directory in this repository.
 
 The expected structure is as follows: all the required fasta files and the PDB files inside a directory called `data` in the working directory (from which the script is called), with a subdirectory `data/gmm` that contains the `.mrc` files and the GMM `.txt` files corresponding to the tomogram GMMs (for the specific densities see README in `data/em`). An example setup is given under `inputs/data` which corresponds to the `data` folder for the main run. Minor modifications of the header in `FASTA` files or the GMM files might be needed for other runs but is already done for the example `data` directory (see the note [here](https://github.com/isblab/desmosome/blob/main/input/em/README.md))
 
@@ -43,11 +43,11 @@ Analysis involved running sampling exhaustiveness, plotting, contact-map generat
 
 Additionally, the main run directory contains some extra files:
 1. `sampcon_fit_to_data.py`: Generates the contact maps, plots for fit to data used in modeling.
-2. `validation_fit_to_data.py`: Same as above for the fit to data not used in modeling.
-3. `cuttoff_compute.py`: Generates the table of cutoffs for different thresholds that can be used in creating the contact maps. See also `utils_helpers_archive/rectangle_overlap.py` to see how the regions of a lower threshold (>0.2 in the paper) are separated from those at a higher threshold (>0.25 in the paper)
-4. `compare_sample_A_B.py`: Compares the Sample A/B Localization Densities using an implementation of cross-correlation as part of statistical tests for sampling exhaustiveness
-5. `chimera_density.py`: The Chimera script that can load the densities and apply the visualization thresholds used in the paper. **The same thresholds are used for all the three runs.**. 
-6. `sikora_dsc_dsg.py`: Generates one of the subfigures and computes fit to the data from Sikora et al.
+2. `validation_fit_to_data.py`: Fit to data for the protein-protein binding and immuno-EM restraints not used in modeling. Some of this data maybe trivial to validate.
+3. `new_dpdp.py`, `new_stahley.py`, and `new_sikora_dsc_dsg.py` : Generates fit to the data for validation data that is not trivial to validate: e.g. DP-DP binding, data from new tomograms, and data from super-resolution imaging.
+4. `cuttoff_compute.py`: Generates the table of cutoffs for different thresholds that can be used in creating the contact maps. See also `utils_helpers_archive/rectangle_overlap.py` to see how the regions of a lower threshold (>0.2 in the paper) are separated from those at a higher threshold (>0.25 in the paper)
+5. `compare_sample_A_B.py`: Compares the Sample A/B Localization Densities using an implementation of cross-correlation as part of statistical tests for sampling exhaustiveness
+6. `chimera_density.py`: The Chimera script that can load the densities and apply the visualization thresholds used in the paper.
 7. `align_pdb_to_rmf.py`: Aligns and outputs PDBs to the corresponding rigid body locations in a given RMF (eg: cluster center model)
 
 ----
@@ -60,6 +60,6 @@ Additionally, separate runs were done to calculate the number of protein copies 
 
 ### Alphafold
 
-We employed [AF2-Multimer](https://github.com/deepmind/alphafold) on all protein-pairs of interest. The best predicted PDB for each protein-pair as well as the input sequences are found in protein-pair specific directories in `analysis/alphafold` (without the `.pkl` files due to space constraints). The script `alphafold_analyze.py` generates the pLDDT/PAE figures (not used in paper, needs the `.pkl` files), contact maps used in the paper and the interface lists. The script accepts a folder containing the best performing model (`ranked_0.pdb`), the `ranking_debug.json` file to identify the corresponding `.pkl` file, and the corresponding `.pkl` file. Generated PAE/PLDDT figures and the contact lists are uploaded (`results/alphafold_analysis_output`). Note that the PAE matrix returned by AF2-Multimer is not strictly symmetric, hence, the contacts between chain A -> B and B -> A can differ. For the paper, we use the former, even though the overall disagreement between the two is minimal.
+We employed [AF3](https://alphafoldserver.com) on all protein-pairs of interest, as well as the full ODP. The script `alphafold3_analysis.py` prints the confidently predicted interface residue pairs (pLDDT>70.0 for both, PAE <5.0 and CA within 10 A from each other).
 
 ----
