@@ -35,7 +35,7 @@ def dist(r1, r2, t1, t2):
     x1 = r1 * np.cos(t1)
     x2 = r2 * np.cos(t2)
     y1 = r1 * np.sin(t1)
-    y2 = r2 * np.cos(t2)
+    y2 = r2 * np.sin(t2)
     return np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 diam = 300 / 2  # cylinder radius
@@ -51,7 +51,7 @@ for i in range(24016):
     mins.append(np.min(all_dsc_dsg))
 
 fig, ax = plt.subplots(figsize=(10, 10))
-counts, bins = np.histogram(minimum_distance, bins=100)
+counts, bins = np.histogram(mins, bins=100)
 ax.hist(minimum_distance, bins=bins, color='black', label='ensemble of models')
 ax.hist(mins, bins=bins, alpha=0.8, color='red', label='random placement')
 ax.set_title('Minimum DSG1-DSC1 distance for each model')
