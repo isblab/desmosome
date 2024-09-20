@@ -30182,7 +30182,7 @@ _ihm_external_files.file_path
 _ihm_external_files.content_type
 _ihm_external_files.file_size_bytes
 _ihm_external_files.details
-1 1 mmcif.py 'Modeling workflow or script' 45389
+1 1 mmcif.py 'Modeling workflow or script' 45328
 'The main integrative modeling script'
 2 1 data/gmm/pkp_separate.mrc 'Input data or restraints' 96784
 'Electron microscopy density map'

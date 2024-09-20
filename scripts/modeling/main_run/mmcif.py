@@ -29,7 +29,7 @@ import pickle
 import IMP.pmi.mmcif
 import ihm
 import ihm.location
-import ihm.model 
+import ihm.model
 
 
 random.seed(12345)
@@ -224,7 +224,7 @@ GPKP_NUMBER = 3  # How many "ghost" PKP molecules to keep
 DP_NUMBER = 4  # How many DP molecules to keep
 PG_NUMBER = 4  # How many PG molecules to keep -> same number of (DSCs + DSGs)
 
-NFRAMES = 5 #Only 5 frames for mmcif 
+NFRAMES = 2 #Note only 2 frames for mmcif
 C_PKP_COLOR = '#95d293'
 STRUCTURE_PKP_COLOR = '#4daf4a'  # Includes the color for GPKPs
 N_PKP_COLOR = '#377e35'
@@ -255,6 +255,12 @@ start_time = time.time()
 mdl = IMP.Model()
 syst = IMP.pmi.topology.System(mdl)
 st = syst.create_state()
+
+# Add deposition information
+po = IMP.pmi.mmcif.ProtocolOutput()
+syst.add_protocol_output(po)
+po.system.title = "Integrative structure of the epithelial desmosomal outer plaque"
+# po.system.citations.append(ihm.Citation.from_pubmed_id(000000)) #TODO
 
 pkp_molecules = []
 gpkp_molecules = []
@@ -339,11 +345,6 @@ for i, p in enumerate(dsg_molecules):
 
 root_hierarchy = syst.build()
 
-# Add deposition information
-po = IMP.pmi.mmcif.ProtocolOutput()
-bs.system.add_protocol_output(po)
-po.system.title = "Integrative structure of the epithelial desmosomal outer plaque"
-# po.system.citations.append(ihm.Citation.from_pubmed_id(000000)) #TODO
 
 dof = IMP.pmi.dof.DegreesOfFreedom(mdl)
 # REPRESENTATION -----------------------------------------------
@@ -494,11 +495,11 @@ shuffle_configuration(temp, bounding_box=bb_dc, avoidcollision_rb=False)
 temp = [x for x in molecules if ('PG' == x.get_name()) or ('DP' == x.get_name())]
 try:  # often fails since the layer is crowded if RB_COLLISION is True
     # if the RB_COLLISION is False, it does not reach the except clause usually
-    shuffle_configuration(temp, bounding_box=bb_pg_dp, verbose=True, niterations=500, avoidcollision_rb=RB_COLLISION)
+    shuffle_configuration(temp, bounding_box=bb_pg_dp, verbose=True, niterations=5, avoidcollision_rb=RB_COLLISION) #Note:  decreased the number of shuffle iterations
 except ValueError:
     print("SHUFFLING: Failed once. Restarting with a lower distance cutoff")
-    shuffle_configuration(temp, bounding_box=bb_pg_dp, verbose=True, niterations=500, cutoff=3,
-                          avoidcollision_rb=RB_COLLISION)
+    shuffle_configuration(temp, bounding_box=bb_pg_dp, verbose=True, niterations=5, cutoff=3,
+                          avoidcollision_rb=RB_COLLISION) #Note:  decreased the number of shuffle iterations
 
 temp = [x for x in molecules if 'PKP1a' == x.get_name()]
 temp_g = [x for x in molecules if 'GPKP1a' == x.get_name()]  # no need to shuffle GPKP
@@ -548,7 +549,7 @@ print("SHUFFLING: Optimizing flexible Beads.")
 mc = IMP.pmi.samplers.MonteCarlo(dof.model, dof.get_floppy_body_movers(), 1)
 assert len(dof.get_floppy_body_movers()) == len(dof.get_flexible_beads()), 'Number of movers != number of fbs'
 print('OPTIMIZING: Flexible bead movers =', len(dof.get_floppy_body_movers()))
-mc.optimize(1000)
+mc.optimize(10) #Note:  decreased the number of shuffle iterations
 IMP.rmf.save_frame(f)
 del f
 # SHUFFLING -----------------------------------------------
@@ -727,6 +728,9 @@ rex = IMP.pmi.macros.ReplicaExchange0(mdl,
 rex.execute_macro()
 
 # -----------------------------
+
+
+
 # Finalize the protocol output
 po.finalize()
 s = po.system
@@ -735,12 +739,12 @@ import ihm.dumper
 with open("model_init_desmosome.cif", "w") as fh:
     ihm.dumper.write(fh, [s])
 
-# # Datasets for XL-MS restraint
-# for r in s.restraints:
-#     if isinstance(r, ihm.restraint.CrossLinkRestraint):
-#         print("XL-MS dataset at:", r.dataset.location.path)
-#         print("Details:", r.dataset.location.details)
-
+# # Dataset for EM restraint
+# em, = [r for r in s.restraints
+#        if isinstance(r, ihm.restraint.EM3DRestraint)]
+# d = em.dataset
+# print("GMM file at", d.location.path)
+#
 last_step = s.orphan_protocols[-1].steps[-1]
 last_step.num_models_end = (
     2_250_000  # 50,000 models per run and 45 independent runs (8 cores per run)
@@ -790,7 +794,7 @@ Uniprot = {
     "PG.1": "P14923",
     "PG.2": "P14923",
     "PG.3": "P14923",
-    
+
     "DSG1.0": "Q02413",
     "DSG1.1": "Q02413",
 
@@ -798,15 +802,25 @@ Uniprot = {
     "DSC1.1": "Q08554-1",
 }
 
-lpep = ihm.LPeptideAlphabet()
-
 for prot, entry in Uniprot.items():
     ref = ihm.reference.UniProtSequence.from_accession(entry)
-    ref.alignments.append(ihm.reference.Alignment())
+
+    #TODO with DP entry
+    if prot.startswith('DP'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=1,db_end=584, entity_begin=1, entity_end=584))
+    if prot.startswith('GPKP1a'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=244,db_end=700, entity_begin=244, entity_end=700))
+
+    if prot.startswith('DSG1'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=570,db_end=842, entity_begin=570, entity_end=842))
+
+    if prot.startswith('DSC1'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=715,db_end=894,entity_begin=715, entity_end=894))
+
     po.asym_units[prot].entity.references.append(ref)
 
 m = IMP.Model()
-inf1 = RMF.open_rmf_file_read_only("../../../results/cluster_center_model.rmf3")
+inf1 = RMF.open_rmf_file_read_only("../../../results/main_run/cluster_center_model.rmf3")
 h = IMP.rmf.create_hierarchies(inf1, m)[0]
 IMP.rmf.link_hierarchies(inf1, [h])
 IMP.rmf.load_frame(inf1, RMF.FrameID(0))
@@ -814,14 +828,14 @@ m.update()
 
 model = po.add_model(e.model_group)
 
-repo = ihm.location.Repository(#TODO after github is finalized 
-    doi="10.5281/zenodo.8035862", 
+repo = ihm.location.Repository(
+    doi="10.5281/zenodo.8035862",
     root="../../../",
     top_directory="desmosome-github",
-    url="https://zenodo.org/record/8035862/files/desmosome-github.zip", #TODO need the latest DOI for this
+    url="https://zenodo.org/record/13363586/files/desmosome-github.zip",
 )
 
-loc_density_list = { 
+loc_density_list = {
     "DP.0": ["LPD_DP-N", "LPD_DP-S"],
     "DP.1": ["LPD_DP-N", "LPD_DP-S"],
     "DP.2": ["LPD_DP-N", "LPD_DP-S"],
@@ -840,7 +854,7 @@ loc_density_list = {
     "PG.1": ["LPD_PG-N", "LPD_PG-S","LPD_PG-C"],
     "PG.2": ["LPD_PG-N", "LPD_PG-S","LPD_PG-C"],
     "PG.3": ["LPD_PG-N", "LPD_PG-S","LPD_PG-C"],
-    
+
     "DSG1.0": ["LPD_DSG"],
     "DSG1.1": ["LPD_DSG"],
 
@@ -853,7 +867,7 @@ for prot, density in loc_density_list.items():
     asym = po.asym_units[prot]
     for domain_density in density:
         loc = ihm.location.OutputFileLocation(
-            "../../../results/" + domain_density + ".mrc"
+            "../../../results/main_run/" + domain_density + ".mrc"
         )
         den = ihm.model.LocalizationDensity(file=loc, asym_unit=asym)
         e.densities.append(den)
