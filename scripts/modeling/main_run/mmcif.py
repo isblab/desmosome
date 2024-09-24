@@ -729,6 +729,49 @@ rex.execute_macro()
 
 # -----------------------------
 
+Uniprot = {
+    "DP.0": "P15924",
+    "DP.1": "P15924",
+    "DP.2": "P15924",
+    "DP.3": "P15924",
+
+    "PKP1a.0": "Q13835-2",
+    "PKP1a.1": "Q13835-2",
+    "PKP1a.2": "Q13835-2",
+    "PKP1a.3": "Q13835-2",
+
+    "GPKP1a.0": "Q13835-2",
+    "GPKP1a.1": "Q13835-2",
+    "GPKP1a.2": "Q13835-2",
+
+    "PG.0": "P14923",
+    "PG.1": "P14923",
+    "PG.2": "P14923",
+    "PG.3": "P14923",
+
+    "DSG1.0": "Q02413",
+    "DSG1.1": "Q02413",
+
+    "DSC1.0": "Q08554-1",
+    "DSC1.1": "Q08554-1",
+}
+
+for prot, entry in Uniprot.items():
+    ref = ihm.reference.UniProtSequence.from_accession(entry)
+
+    #TODO with DP entry
+    if prot.startswith('DP'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=1,db_end=584, entity_begin=1, entity_end=584))
+    if prot.startswith('GPKP1a'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=244,db_end=700, entity_begin=244, entity_end=700))
+
+    if prot.startswith('DSG1'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=570,db_end=842, entity_begin=570, entity_end=842))
+
+    if prot.startswith('DSC1'):
+        ref.alignments.append(ihm.reference.Alignment(db_begin=715,db_end=894,entity_begin=715, entity_end=894))
+
+    po.asym_units[prot].entity.references.append(ref)
 
 
 # Finalize the protocol output
@@ -775,49 +818,7 @@ e = ihm.model.Ensemble(
 )
 po.system.ensembles.append(e)
 
-Uniprot = {
-    "DP.0": "P15924",
-    "DP.1": "P15924",
-    "DP.2": "P15924",
-    "DP.3": "P15924",
 
-    "PKP1a.0": "Q13835-2",
-    "PKP1a.1": "Q13835-2",
-    "PKP1a.2": "Q13835-2",
-    "PKP1a.3": "Q13835-2",
-
-    "GPKP1a.0": "Q13835-2",
-    "GPKP1a.1": "Q13835-2",
-    "GPKP1a.2": "Q13835-2",
-
-    "PG.0": "P14923",
-    "PG.1": "P14923",
-    "PG.2": "P14923",
-    "PG.3": "P14923",
-
-    "DSG1.0": "Q02413",
-    "DSG1.1": "Q02413",
-
-    "DSC1.0": "Q08554-1",
-    "DSC1.1": "Q08554-1",
-}
-
-for prot, entry in Uniprot.items():
-    ref = ihm.reference.UniProtSequence.from_accession(entry)
-
-    #TODO with DP entry
-    if prot.startswith('DP'):
-        ref.alignments.append(ihm.reference.Alignment(db_begin=1,db_end=584, entity_begin=1, entity_end=584))
-    if prot.startswith('GPKP1a'):
-        ref.alignments.append(ihm.reference.Alignment(db_begin=244,db_end=700, entity_begin=244, entity_end=700))
-
-    if prot.startswith('DSG1'):
-        ref.alignments.append(ihm.reference.Alignment(db_begin=570,db_end=842, entity_begin=570, entity_end=842))
-
-    if prot.startswith('DSC1'):
-        ref.alignments.append(ihm.reference.Alignment(db_begin=715,db_end=894,entity_begin=715, entity_end=894))
-
-    po.asym_units[prot].entity.references.append(ref)
 
 m = IMP.Model()
 inf1 = RMF.open_rmf_file_read_only("../../../results/main_run/cluster_center_model.rmf3")
