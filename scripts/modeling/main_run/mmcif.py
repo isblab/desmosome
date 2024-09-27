@@ -766,10 +766,10 @@ for prot, entry in Uniprot.items():
         ref.alignments.append(ihm.reference.Alignment(db_begin=244,db_end=700, entity_begin=244, entity_end=700))
 
     if prot.startswith('DSG1'):
-        ref.alignments.append(ihm.reference.Alignment(db_begin=570,db_end=842, entity_begin=570, entity_end=842))
+        ref.alignments.append(ihm.reference.Alignment(db_begin=570,db_end=842, entity_begin=1, entity_end=273))
 
     if prot.startswith('DSC1'):
-        ref.alignments.append(ihm.reference.Alignment(db_begin=715,db_end=894,entity_begin=715, entity_end=894))
+        ref.alignments.append(ihm.reference.Alignment(db_begin=715,db_end=894,entity_begin=1, entity_end=180))
 
     po.asym_units[prot].entity.references.append(ref)
 
