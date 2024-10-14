@@ -5,6 +5,13 @@
 This repository is of the integrative model of the desmosome ODP based on data from X-ray crystallography, electron cryo-tomography, immuno-electron microscopy, yeast two-hybrid experiments, co-immunoprecipitation, in vitro overlay, in vivo co-localization assays, in-silico sequence-based predictions of transmembrane and disordered regions, homology modeling, and stereochemistry information. It contains input data, scripts for modeling and results including bead models and localization probability density maps.
 The modeling was performed using IMP (Integrative Modeling Platform).
 
+## Depositions in PDB and ModelArchive 
+
+PDB entry for the integrative model : [9A8U](https://www.wwpdb.org/pdb?id=pdb_00009a8u)
+
+Model archive entries for Alphafold3 models: [Full ODP](https://www.modelarchive.org/doi/10.5452/ma-8443n), [PG-DSC1](https://www.modelarchive.org/doi/10.5452/ma-5u1n5),[PG-DSC1](https://www.modelarchive.org/doi/10.5452/ma-fwvwf), and [DP-PKP1](https://www.modelarchive.org/doi/10.5452/ma-ic5zo) 
+
+
 ![Image](./metadata/thumb.png)
 
 ## Layout
