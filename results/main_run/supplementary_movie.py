@@ -73,8 +73,7 @@ dothis(
 # set scence
 dothis(
     [
-        # 'set bgcolor #2B2B2B',
-        "set bgcolor black",
+        "set bgcolor #2B2B2B",
         "view all",
         "lighting soft",
         f"transparency all {pd_transparency} target s",
@@ -87,9 +86,9 @@ dothis(
         "open ./sampcon_0_extracted_main_run.rmf3",
         f"rmf readtraj #12.1 first 1 last {total_models} step {step_model}",
         f"coordset slider #12.1",
-        'show all; view all',
-        'view name one_view',
-        'hide all target m'
+        "show all; view all",
+        "view name one_view",
+        "hide all target m"
     ]
 )
 
