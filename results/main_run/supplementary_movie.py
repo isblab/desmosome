@@ -3,20 +3,20 @@ from chimerax.core.commands import run
 
 # Names of proteins/domains for which we have created densities
 prots = [
-    'DP-N', 'DP-S', 'DSC', 'DSG', 'GPKP', 'PG-C', 'PG-N', 'PG-S', 'PKP-C', 'PKP-N', 'PKP-S'
+    "DP-N", "DP-S", "DSC", "DSG", "GPKP", "PG-C", "PG-N", "PG-S", "PKP-C", "PKP-N", "PKP-S"
 ]
 
 if f"LPD_{prots[0]}.mrc" not in os.listdir():
     raise Exception(
-        'Density maps not found.'
-        ' Please change the directory to the'
-        ' one containing the density maps by'
-        ' running the following command in ChimeraX:'
-        ' cd /path/to/density/maps'
+        "Density maps not found."
+        " Please change the directory to the"
+        " one containing the density maps by"
+        " running the following command in ChimeraX:"
+        " cd /path/to/density/maps"
     )
 
 prot_names = [
-    'DP1-N', 'DP1-S', 'DSC1a', 'DSG1a', 'PKP1aG', 'PG-C', 'PG-N', 'PG-S', 'PKP1a-C', 'PKP1a-N', 'PKP1a-S'
+    "DP1-N", "DP1-S", "DSC1a", "DSG1a", "PKP1aG", "PG-C", "PG-N", "PG-S", "PKP1a-C", "PKP1a-N", "PKP1a-S"
 ]
 
 threshold = [
@@ -24,9 +24,9 @@ threshold = [
 ]
 
 colors = [
-    '#e31a1c', '#ef7678', '#1f78b4', '#6a3d9a', '#4daf4a', 
-    '#ffb366', '#994d00', '#ff7f00', '#95d293', '#377e35', 
-    '#4daf4a'
+    "#e31a1c", "#ef7678", "#1f78b4", "#6a3d9a", "#4daf4a",
+    "#ffb366", "#994d00", "#ff7f00", "#95d293", "#377e35",
+    "#4daf4a"
 ]
 
 pd_transparency = 50 # transparency of localization probability density maps
@@ -199,9 +199,9 @@ dothis(
         f"view all_view {num_frames_move}",
         f"wait 120",
         f"show #1-11.2 target m",
-        f"move X -100 models #3.2",
-        f"move X -100 models #4.2",
-        f"move X -100 models #1,2.2",
+        f"move X -50 models #3.2",
+        f"move X -50 models #4.2",
+        f"move X -25 models #1,2.2",
         f"wait 80",
         f"hide #1-11.2",
         f"move X -{300/num_frames_move} {num_frames_move} models #5-11",
@@ -217,7 +217,7 @@ dothis(
 ####### stop movie recording #######
 dothis(
     [
-        f"movie encode ./Desmosome_viz_1.mp4 framerate {framerate} quality highest format h264 qscale 1",
+        f"movie encode ./Desmosome_viz.mp4 framerate {framerate} quality highest format h264 qscale 1",
         "coordset stop"
     ]
 )
