@@ -62,4 +62,4 @@ International License.
 **Last known good IMP version:** Not tested  
 **Testable:** Yes
 **Parallelizeable:** Yes\
-**Publications:**  Pasani S, Menon KS, Viswanath S (2023). The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling. [DOI](https://doi.org/10.1101/2023.06.13.544884).
+**Publications:**  Pasani S, Menon KS, Viswanath S (2023). _The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling_. Protein Science, 33(12), e5217, 2024 [DOI](https://doi.org/https://doi.org/10.1002/pro.5217).
