@@ -60,6 +60,6 @@ Additional Linux software needed to run all the scripts in the repository:
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
 International License.
 **Last known good IMP version:** Not tested  
-**Testable:** Yes
+**Testable:** Yes \
 **Parallelizeable:** Yes\
 **Publications:**  Pasani S, Menon KS, Viswanath S, _The molecular architecture of the desmosomal outer dense plaque by integrative structural modeling_. Protein Science, 33(12), e5217, 2024. [DOI](https://doi.org/https://doi.org/10.1002/pro.5217).
