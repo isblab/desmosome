@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8035862.svg)](https://doi.org/10.5281/zenodo.8035862)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo-blue.svg)](https://doi.org/10.5281/zenodo.8035862)
 
 # Integrative structure of the desmosome outer dense plaque  
 
